@@ -9,6 +9,7 @@ import { Button, TextField } from '@material-ui/core'
 import ChipInput from 'material-ui-chip-input'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -16,6 +17,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
+  title: {
+    textAlign: 'left',
+    color: theme.palette.text.primary,
+  }
 }))
 
 const Setups = () => {
@@ -51,15 +56,16 @@ const Setups = () => {
 
   // eslint-disable-next-line react/jsx-no-undef
   return (
-    <Layout title={'Add new Setup'}>
+    <Layout title={'New Setup'}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
+            <Typography className={classes.title} variant="h3">Create a new show room</Typography>
             <TextField
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               id="title"
-              label="Showroom Title"
+              label="Title"
               fullWidth
             />
             <br />
@@ -69,7 +75,7 @@ const Setups = () => {
               onChange={(e) => setDescription(e.target.value)}
               id="description"
               label="Description"
-              placeholder="Enter a description of your showroom"
+              placeholder="Enter a description of your show room"
               fullWidth
             />
             <br />
@@ -87,6 +93,9 @@ const Setups = () => {
               dropzoneText="Drag and drop an image of your showroom here"
               filesLimit={1}
               onChange={handleChange}
+              showPreviews={true}
+              showPreviewsInDropzone={false}
+              showFileNamesInPreview={true}
             />
             <Button onClick={submit} variant="contained" color="primary" style={{ marginTop: 15 }}>
               Submit

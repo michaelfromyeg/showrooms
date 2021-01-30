@@ -10,6 +10,20 @@ a {
   text-decoration: none;
 }
 
+.MuiDropzoneArea-root {
+  min-height: 150px !important;
+}
+
+.MuiDropzonePreviewList-root {
+  display: flex;
+  justify-content: center;
+}
+
+.MuiDropzonePreviewList-removeButton {
+  top: 30% !important;
+  right: 44% !important;
+}
+
 // * {
 //   box-sizing: border-box;
 //   overflow: hidden;
