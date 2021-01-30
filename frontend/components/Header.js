@@ -51,7 +51,7 @@ const Header = ({ email, signOut }) => {
         {email ? (
           <>
             <Typography style={{ marginleft: 10, marginRight: 10, padding: 0, }} variant="body2">Hi, {emailToUsername(email)}!</Typography>
-            <Link href={`/new-setup`}>
+            <Link href={`/setup/new`}>
               <IconButton color="inherit">
                 <AddCircleIcon />
               </IconButton>

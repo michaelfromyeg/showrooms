@@ -88,7 +88,7 @@ const Setups = () => {
               filesLimit={1}
               onChange={handleChange}
             />
-            <Button onClick={submit} variant="contained" color="primary" style={{ paddingTop: 5 }}>
+            <Button onClick={submit} variant="contained" color="primary" style={{ marginTop: 15 }}>
               Submit
             </Button>
           </Paper>
