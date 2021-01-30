@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { toast } from 'react-toastify'
 
 const useStyles = makeStyles({
   root: {
@@ -37,7 +38,30 @@ const ProductCard = ({ productSku, isUser }) => {
         }
       )
   }, [])
-  
+
+  const trimDescription = (desc) => {
+    if (!desc) return
+    return desc.length > 100 ? desc.substring(0, 100) + '...' : desc
+  }
+
+  const handleCopy = (e, link) => {
+    e.preventDefault();
+    navigator.clipboard.writeText(link).then(function () {
+      console.log('Async: Copying to clipboard was successful!');
+      toast.success('🔗 Link copied!', {
+        position: "top-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }, function (err) {
+      console.error('Async: Could not copy text: ', err);
+    });
+  }
+
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
@@ -45,12 +69,11 @@ const ProductCard = ({ productSku, isUser }) => {
   } else {
     return (
       <Card className={classes.root}>
-      <CardActionArea>
         <CardMedia
           component="img"
           alt={items.name}
-          height="200"
-          image={items.thumbnailImage}
+          height={200}
+          image={items.highResImage ? items.highResImage : items.thumbnailImage}
           title={items.name}
         />
         <CardContent>
@@ -58,28 +81,24 @@ const ProductCard = ({ productSku, isUser }) => {
             {items.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {items.shortDescription}
+            {trimDescription(items.shortDescription)}
           </Typography>
         </CardContent>
-      </CardActionArea>
-      <CardActions>
-        {
-        isUser ?          
-        <Button size="medium" color="green">
-          <a href="https://www.bestbuy.ca/en-ca" target="_blank">
-          Add to Cart
-          </a>
-      </Button>:
-        <Button size="medium" color="primary">
-          <a href={items.productUrl} target="_blank">
-          Go To Product
-          </a>
-        </Button>
-        }
-      </CardActions>
-    </Card>
-    )        
-}
+        <CardActions>
+          {isUser &&
+            <Button onClick={(e) => handleCopy(e, items.productUrl)} variant="contained" size="medium" color="primary">
+              Copy link
+            </Button>
+          }
+          <Button variant="contained" size="medium" color="secondary">
+            <a rel="noopener noreferrer" href={items.productUrl} target="_blank">
+              Go To Product
+            </a>
+          </Button>
+        </CardActions>
+      </Card>
+    )
+  }
 }
 
 export default ProductCard

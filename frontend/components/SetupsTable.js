@@ -17,7 +17,7 @@ import Switch from '@material-ui/core/Switch';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import Tooltip from '@material-ui/core/Tooltip';
-
+import axios from 'axios';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -126,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SetupsTable = ({ data: rows, handleHideRow }) => {
   const classes = useStyles()
-  const [votes, setVotes] = useState(Array.from({ length: rows ? rows.length : 0 }, (v, i) => i))
+  // const [votes, setVotes] = useState(Array.from({ length: rows ? rows.length : 0 }, (v, i) => i))
   const [clicked, setClicked] = useState(Array.from({ length: rows ? rows.length : 0 }, (v, i) => false))
   const [dense, setDense] = React.useState(false);
   const [order, setOrder] = React.useState('asc');
@@ -149,7 +149,7 @@ const SetupsTable = ({ data: rows, handleHideRow }) => {
     setPage(0);
   };
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const normalizeDate = (dateString) => {
     const date = new Date(dateString)
@@ -160,14 +160,36 @@ const SetupsTable = ({ data: rows, handleHideRow }) => {
     setDense(event.target.checked);
   };
 
-  const handleVote = (e, index) => {
+  const handleVote = async (e, index) => {
     e.preventDefault();
-    const votesCopy = votes.slice()
-    votesCopy[index] += 1
-    setVotes(votesCopy)
+    console.log(rows[index])
+    if (clicked[index]) {
+      await axios({
+        method: 'patch',
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${rows[index]._id}`,
+        data: {
+          upvotes: rows[index].upvotes - 1,
+        },
+        headers: {}
+      })
+    } else {
+      await axios({
+        method: 'patch',
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${rows[index]._id}`,
+        data: {
+          upvotes: rows[index].upvotes + 1,
+        },
+        headers: {}
+      })
+    }
+
     const clickedCopy = clicked.slice()
-    clickedCopy[index] = true
+    clickedCopy[index] = !clickedCopy[index]
     setClicked(clickedCopy)
+  }
+
+  const emailToUsername = (email) => {
+    return email.split('@')[0]
   }
 
   return (
@@ -188,11 +210,11 @@ const SetupsTable = ({ data: rows, handleHideRow }) => {
                 .map((row, index) => (
                   <TableRow style={{ height: (dense ? 4 : 8) * rows.length }} key={`${row.title}-${index}`}>
                     <TableCell align="left">
-                      <Votes handleVote={handleVote} hasClicked={clicked[index]} index={index} number={votes[index]} />
+                      <Votes handleVote={handleVote} hasClicked={clicked[index]} index={index} number={row.upvotes} />
                     </TableCell>
                     <TableCell align="left">{row.title}</TableCell>
                     <TableCell align="left">{normalizeDate(row.createdAt)}</TableCell>
-                    <TableCell align="left">by <Link href={`/user/${row.author}`}><a>{row.author}</a></Link></TableCell>
+                    <TableCell align="left">by <Link href={`/user/${row.author}`}><a>{emailToUsername(row.by)}</a></Link></TableCell>
                     <TableCell align="left"><a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row.title) }}>hide</a></TableCell>
                     <TableCell align="left"><Thumbnail /></TableCell>
                   </TableRow>

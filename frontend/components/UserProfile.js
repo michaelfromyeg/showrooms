@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import ProductCard from './ProductCard'
+
 // import Grid from '@material-ui/core/Grid';
 
 const UserProfile = ({ user }) => (
   <div>
-    <ProductCard />
-    <h1>Edit your profile</h1>
+    <h2>Edit your profile</h2>
     <Formik
       initialValues={{ email: user.email, name: '' }}
       validate={(values) => {
@@ -30,11 +29,13 @@ const UserProfile = ({ user }) => (
     >
       {({ isSubmitting }) => (
         <Form>
-          <Field as={TextField} type="email" name="email" disabled />
+          <Field fullWidth as={TextField} label="Email" type="email" name="email" disabled />
           <ErrorMessage name="email" component="div" />
-          <Field as={TextField} type="name" name="name" />
+          <br /><br />
+          <Field fullWidth as={TextField} label="Name" type="name" name="name" />
           <ErrorMessage name="name" component="div" />
-          <Button type="submit" disabled={isSubmitting}>
+          <br /><br />
+          <Button color="primary" variant="contained" type="submit" disabled={isSubmitting}>
             Update
           </Button>
         </Form>

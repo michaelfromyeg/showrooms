@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 const FeaturedSetup = () => {
   const classes = useStyles()
   const router = useRouter()
-  const id = "601551a4f596023973ce09dd"
+  const id = "6015ba03f7cf6d6ad6cd0f17"
   const [setup, setSetup] = useState()
 
   useEffect(() => {
