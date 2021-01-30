@@ -16,6 +16,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TablePagination from '@material-ui/core/TablePagination';
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -44,12 +46,12 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'vote', numeric: true, disablePadding: false, label: 'Vote' },
-  { id: 'title', numeric: false, disablePadding: false, label: 'Title' },
-  { id: 'date', numeric: false, disablePadding: false, label: 'Date' },
-  { id: 'author', numeric: false, disablePadding: false, label: 'Author' },
-  { id: 'view', numeric: false, disablePadding: false, label: 'View' },
-  { id: 'thumbnail', numeric: false, disablePadding: false, label: 'Thumbnail' },
+  { id: 'vote', numeric: true, disablePadding: false, label: 'Vote', helpText: 'Sort by upvotes. Find "best" posts by clicking twice.' },
+  { id: 'title', numeric: false, disablePadding: false, label: 'Title', helpText: 'Sort by title (alphabetical order).' },
+  { id: 'date', numeric: false, disablePadding: false, label: 'Date', helpText: 'Sort by date posted.' },
+  { id: 'author', numeric: false, disablePadding: false, label: 'Author', helpText: 'Sort by author (alphabetical order).' },
+  { id: 'view', numeric: false, disablePadding: false, label: 'View', helpText: 'Hide or save posts.' },
+  { id: 'thumbnail', numeric: false, disablePadding: false, label: 'Thumbnail', helpText: 'View post thumbnail.' },
 ];
 
 function EnhancedTableHead(props) {
@@ -62,24 +64,26 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={'left'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
+          <Tooltip placement="top-start" key={headCell.id} title={headCell.helpText}>
+            <TableCell
+              key={headCell.id}
+              align={'left'}
+              sortDirection={orderBy === headCell.id ? order : false}
             >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <span className={classes.visuallyHidden}>
+                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  </span>
+                ) : null}
+              </TableSortLabel>
+            </TableCell>
+          </Tooltip>
         ))}
       </TableRow>
     </TableHead>
