@@ -10,12 +10,21 @@ const setupSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    user: {
+    author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
     upvotes: {
       type: Number,
+    },
+    title: {
+      type: String
+    },
+    tags: {
+      type: List[String]
+    },
+    description: {
+      type: String
     }
   },
   {
