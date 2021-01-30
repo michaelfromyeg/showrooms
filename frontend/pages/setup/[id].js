@@ -8,6 +8,8 @@ import { useRouter } from 'next/router'
 import Layout from '../../layout/layout'
 import { Viewer } from 'photo-sphere-viewer'
 import Skeleton from '@material-ui/lab/Skeleton'
+const axios = require('axios');
+
 import Typography from '@material-ui/core/Typography'
 import ProductCard from '../../components/ProductCard'
 

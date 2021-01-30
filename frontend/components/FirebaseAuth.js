@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import axios from 'axios'
 
 const firebaseAuthConfig = {
   signInFlow: 'popup',
@@ -13,7 +14,10 @@ const firebaseAuthConfig = {
   signInSuccessUrl: '/',
   credentialHelper: 'none',
   callbacks: {
-    signInSuccessWithAuthResult: () => false,
+    signInSuccessWithAuthResult: (result) => {
+
+      return false
+    },
   },
 }
 

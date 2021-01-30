@@ -6,6 +6,9 @@ const setupSchema = new mongoose.Schema(
     products: {
       type: [[Object]],
     },
+    user_recommendations:  {
+      type: [String]
+    },
     img: {
       type: String,
       required: true,
@@ -28,7 +31,7 @@ const setupSchema = new mongoose.Schema(
     },
     description: {
       type: String
-    }
+    },
   },
   {
     timestamps: true,
