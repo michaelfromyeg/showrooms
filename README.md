@@ -15,6 +15,9 @@ TODO
 
 ### User Stories
 
+- [ ] As a user, I can create an account and login to see my profile
+- [ ] As a user, I can view a homepage/landing page
+- [ ] As a user, I can view a list of all current setups
 - [ ] As a user, I can link my products on my profile page
   - User takes a picture of their desk and it automatically detects what is on the desk. Users can adjust what products there are and add more
   - Links go to bestbuy purchase page
