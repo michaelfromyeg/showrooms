@@ -29,7 +29,7 @@ router.post("/", upload.single("file"), async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const result = await setup.findById(req.params.id);
+    const result = await Setup.findById(req.params.id);
     res.json(result);
   } catch (err) {
     res.json(err);
@@ -37,59 +37,60 @@ router.get("/:id", async (req, res) => {
 });
 
 router.get("/:id/image", async (req, res) => {
-  const result = await setup.findById(req.params.id);
+  const result = await Setup.findById(req.params.id);
   console.log(result);
   res.sendFile(path.resolve("./uploads/" + result.img));
 });
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   const filters = req.query.filters ? JSON.parse(req.query.filters) : null;
-  const mongoFilter = {}
+  const mongoFilter = {};
   if (filters) {
     for (filter of filters) {
-      mongoFilter[filter.key] = { '$eq': filter.value };
+      mongoFilter[filter.key] = { $eq: filter.value };
     }
   }
   const limit = parseInt(req.query.limit);
   const skip = parseInt(req.query.skip);
   try {
-    const result = await setup.find(mongoFilter).skip(skip).limit(limit)
-    res.send(result)
+    const result = await Setup.find(mongoFilter).skip(skip).limit(limit);
+    res.send(result);
   } catch (error) {
     console.error(error);
-    res.status(500).send(error)
+    res.status(500).send(error);
   }
-})
+});
 
 router.patch("/:id", async (req, res) => {
-  const updates = Object.keys(req.body)
-  const allowedUpdates = ['img', 'products']
-  const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["img", "products"];
+  const isValidOperation = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
 
   if (!isValidOperation) {
-    return res.status(400).send({ error: 'Invalid updates!' })
+    return res.status(400).send({ error: "Invalid updates!" });
   }
 
   try {
-    const setup = await Setup.findOne({ id: req.params._id })
+    const setup = await Setup.findOne({ id: req.params._id });
 
     if (!setup) {
-      return res.status(404).send()
+      return res.status(404).send();
     }
 
-    updates.forEach((update) => setup[update] = req.body[update])
-    await setup.save()
+    updates.forEach((update) => (setup[update] = req.body[update]));
+    await setup.save();
 
-    res.send(setup)
+    res.send(setup);
   } catch (e) {
-    res.status(400).send(e)
+    res.status(400).send(e);
   }
-})
-
+});
 
 router.delete("/:id", async (req, res) => {
   try {
-    const setup = await setup.findOneAndDelete({
+    const setup = await Setup.findOneAndDelete({
       _id: req.params.id,
     });
 
