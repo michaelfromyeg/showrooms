@@ -5,7 +5,7 @@ import Header from '../../components/Header'
 import { useAuthUser } from 'next-firebase-auth'
 import { useRouter } from 'next/router'
 import UserProfile from '../../components/UserProfile'
-import Grid from '@material-ui/core/Grid';
+import Grid from '@material-ui/core/Grid'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,12 +32,12 @@ const User = () => {
           <h3>User: {user}</h3>
         </Grid>
         <Grid item xs={12}>
-          {AuthUser.id === user &&
+          {AuthUser.id === user && (
             <>
               <h3>This is your page.</h3>
               <UserProfile user={AuthUser} />
             </>
-          }
+          )}
         </Grid>
       </Grid>
     </>

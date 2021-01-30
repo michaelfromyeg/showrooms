@@ -57,15 +57,15 @@ const Header = ({ email, signOut }) => {
             </Button>
           </>
         ) : (
-            <>
-              <Typography variant="body2">You are not signed in.</Typography>
-              <Link href="/auth">
-                <a>
-                  <Button color="inherit">Sign in</Button>
-                </a>
-              </Link>
-            </>
-          )}
+          <>
+            <Typography variant="body2">You are not signed in.</Typography>
+            <Link href="/auth">
+              <a>
+                <Button color="inherit">Sign in</Button>
+              </a>
+            </Link>
+          </>
+        )}
       </Toolbar>
     </AppBar>
   )

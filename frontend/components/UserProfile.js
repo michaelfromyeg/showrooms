@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
 // import Grid from '@material-ui/core/Grid';
 
 const UserProfile = ({ user }) => (
@@ -10,22 +10,20 @@ const UserProfile = ({ user }) => (
     <h1>Edit your profile</h1>
     <Formik
       initialValues={{ email: user.email, name: '' }}
-      validate={values => {
-        const errors = {};
+      validate={(values) => {
+        const errors = {}
         if (!values.email) {
-          errors.email = 'Required';
-        } else if (
-          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-        ) {
-          errors.email = 'Invalid email address';
+          errors.email = 'Required'
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+          errors.email = 'Invalid email address'
         }
-        return errors;
+        return errors
       }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+          alert(JSON.stringify(values, null, 2))
+          setSubmitting(false)
+        }, 400)
       }}
     >
       {({ isSubmitting }) => (
@@ -36,15 +34,15 @@ const UserProfile = ({ user }) => (
           <ErrorMessage name="name" component="div" />
           <Button type="submit" disabled={isSubmitting}>
             Update
-           </Button>
+          </Button>
         </Form>
       )}
     </Formik>
   </div>
-);
+)
 
 UserProfile.propTypes = {
   user: PropTypes.any,
 }
 
-export default UserProfile;
+export default UserProfile
