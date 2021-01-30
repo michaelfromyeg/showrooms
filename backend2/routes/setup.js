@@ -23,13 +23,9 @@ var upload = multer({
 router.post("/", upload.single("file"), async (req, res) => {
   const setup = new Setup({
     img: req.file.filename,
-<<<<<<< Updated upstream
-    ...req.body
-=======
     title: req.body.title || "Untitled",
     description: req.body.description || "No Description",
     tags: req.body.tags || [],
->>>>>>> Stashed changes
   });
   let results = await vision.getDataFromImage(req.file.filename);
   products = []
