@@ -245,8 +245,22 @@ const SetupsTable = ({ data: rows, handleHideRow, handleDataChange }) => {
                       )
                     })}
                     </TableCell>
-                    <TableCell align="left"><a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row._id) }}>hide</a></TableCell>
-                    <TableCell align="left"><Thumbnail src={row.img} /></TableCell>
+                    <TableCell align="left">
+                      <>
+                        <Link href={`/setup/${row._id}`}>
+                          <a href="">view</a>
+                        </Link>
+                        <br />
+                        <a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row._id) }}>hide</a>
+                      </>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Link href={`/setup/${row._id}`}>
+                        <a>
+                          <Thumbnail id={row._id} src={row.img} />
+                        </a>
+                      </Link>
+                    </TableCell>
                   </TableRow>
                 ))}
           </TableBody>

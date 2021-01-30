@@ -12,7 +12,7 @@ import { toast } from 'react-toastify'
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    maxWidth: 300,
   },
 });
 
@@ -72,7 +72,7 @@ const ProductCard = ({ productSku, isUser }) => {
         <CardMedia
           component="img"
           alt={items.name}
-          height={200}
+          height={300}
           image={items.highResImage ? items.highResImage : items.thumbnailImage}
           title={items.name}
         />
@@ -91,7 +91,7 @@ const ProductCard = ({ productSku, isUser }) => {
             </Button>
           }
           <Button variant="contained" size="medium" color="secondary">
-            <a rel="noopener noreferrer" href={items.productUrl} target="_blank">
+            <a style={{ color: 'inherit' }} rel="noopener noreferrer" href={items.productUrl} target="_blank">
               Go To Product
             </a>
           </Button>
