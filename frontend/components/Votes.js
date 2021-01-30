@@ -5,7 +5,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import { Typography } from '@material-ui/core'
 import { Container } from '@material-ui/core'
 
-const Votes = ({ number }) => {
+const Votes = ({ index, number }) => {
   return (
     <Container
       style={{
@@ -15,6 +15,8 @@ const Votes = ({ number }) => {
         padding: 0,
       }}
     >
+      {/* index */}
+      {/*`. `*/}
       <Typography alignCenter variant="body1">
         {number}
       </Typography>
@@ -24,6 +26,7 @@ const Votes = ({ number }) => {
 }
 
 Votes.propTypes = {
+  index: PropTypes.any,
   number: PropTypes.any,
 }
 

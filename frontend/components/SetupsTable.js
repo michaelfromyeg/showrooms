@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { withAuthUser } from 'next-firebase-auth'
@@ -10,6 +11,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Votes from './Votes'
+import Thumbnail from './Thumbnail'
 
 const useStyles = makeStyles({
   table: {
@@ -17,7 +19,7 @@ const useStyles = makeStyles({
   },
 })
 
-const SetupsTable = ({ data }) => {
+const SetupsTable = ({ data, handleHideRow }) => {
   const classes = useStyles()
 
   return (
@@ -30,24 +32,26 @@ const SetupsTable = ({ data }) => {
             <TableCell align="left">Date</TableCell>
             <TableCell align="left">Author</TableCell>
             <TableCell align="left">View</TableCell>
+            <TableCell align="left">Thumbnail</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data &&
-            data.map((row) => (
+            data.map((row, index) => (
               <TableRow key={row.title}>
                 <TableCell align="left">
-                  <Votes number={5} />
+                  <Votes index={index} number={5} />
                 </TableCell>
                 <TableCell align="left">{row.title}</TableCell>
                 <TableCell align="left">{row.date}</TableCell>
-                <TableCell align="left">{row.author}</TableCell>
-                <TableCell align="left">{row.view}</TableCell>
+                <TableCell align="left">by <Link href={`/user/${row.author}`}><a>{row.author}</a></Link></TableCell>
+                <TableCell align="left"><a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row.title) }}>{row.view}</a></TableCell>
+                <TableCell align="left"><Thumbnail /></TableCell>
               </TableRow>
             ))}
         </TableBody>
       </Table>
-    </TableContainer>
+    </TableContainer >
   )
 }
 
