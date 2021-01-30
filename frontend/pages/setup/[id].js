@@ -56,7 +56,7 @@ const Setups = () => {
 
   const emailToUsername = (email) => {
     if (!email) return
-    return '@' + email.split('@')[0]
+    return email.split('@')[0]
   }
 
   // eslint-disable-next-line react/jsx-no-undef
@@ -74,7 +74,7 @@ const Setups = () => {
                   <Skeleton variant="rect" height={600} />
                 </>
               )}
-            <Typography style={{ paddingTop: 20 }} className={classes.label} variant="body2">Setup from <Link href={"user/9JaxdHJ4URei2QFFxapvSTZafZR2"}><a>{setup ? emailToUsername(setup.by) : '...'}</a></Link></Typography>
+            <Typography style={{ paddingTop: 20 }} className={classes.label} variant="body2">Setup from <Link href={`/user/${emailToUsername(setup.by)}`}><a>{setup ? '@' + emailToUsername(setup.by) : '...'}</a></Link></Typography>
           </Paper>
         </Grid>
       </Grid>

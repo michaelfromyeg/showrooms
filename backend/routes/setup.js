@@ -71,8 +71,8 @@ router.get("/user/:user/image", async (req, res) => {
   try {
     console.log('GET /user/:user/image', req.params.user)
     const result = await Setup.find({ by: req.params.user + '@gmail.com' });
-    console.log('GET /user/:user/image', result);
-    res.sendFile(path.resolve("./uploads/" + result.img));
+    console.log('GET /user/:user/image', result[0]);
+    res.sendFile(path.resolve("./uploads/" + result[0].img));
   } catch (err) {
     res.json(err);
   }
