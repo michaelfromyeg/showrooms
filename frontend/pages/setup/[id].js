@@ -69,14 +69,16 @@ const Setups = () => {
           <Paper className={classes.paper}>
             <Typography style={{ paddingBottom: 20 }} className={classes.label} variant="h2">{setup ? `"${setup.title}"` : null}</Typography>
             {setup?.img ? (
-              <div style={{ width: '100%', height: 600 }} ref={sphereElementRef} />
+              <>
+                <div style={{ width: '100%', height: 600 }} ref={sphereElementRef} />
+                <Typography style={{ paddingTop: 20 }} className={classes.label} variant="body2">Setup from <Link href={`/user/${emailToUsername(setup.by)}`}><a>{setup ? '@' + emailToUsername(setup.by) : '...'}</a></Link></Typography>
+              </>
             ) : (
                 <>
                   <Skeleton variant="text" height={40} />
                   <Skeleton variant="rect" height={600} />
                 </>
               )}
-            <Typography style={{ paddingTop: 20 }} className={classes.label} variant="body2">Setup from <Link href={`/user/${emailToUsername(setup.by)}`}><a>{setup ? '@' + emailToUsername(setup.by) : '...'}</a></Link></Typography>
           </Paper>
         </Grid>
       </Grid>

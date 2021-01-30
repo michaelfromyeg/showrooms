@@ -24,7 +24,7 @@ var upload = multer({
 router.post("/", upload.single("file"), async (req, res) => {
   // const user = await User.findOne({email: req.body.email})
   // console.log(user, req.body.email)
-  
+
   const setup = new Setup({
     img: req.file.filename,
     title: req.body.title || "Untitled",
@@ -49,9 +49,12 @@ router.post("/", upload.single("file"), async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
+    console.log('GET /setup/:id')
     const result = await Setup.findById(req.params.id);
+    console.log('GET /setup/:id', result)
     res.json(result);
   } catch (err) {
+    console.error(err)
     res.json(err);
   }
 });
@@ -63,6 +66,7 @@ router.get("/user/:user", async (req, res) => {
     console.log('GET /user/:user', result)
     res.json(result[0]);
   } catch (err) {
+    console.error(err)
     res.json(err);
   }
 });
@@ -173,14 +177,14 @@ router.patch("/:id/products", async (req, res) => {
     }
 
 
-    const result = await Setup.updateOne({_id: req.params.id}, {
+    const result = await Setup.updateOne({ _id: req.params.id }, {
       products: [
         setup.products[0],
         [...setup.products[1], req.body.products]
       ]
     })
 
-     setup = await Setup.findById(req.params.id);
+    setup = await Setup.findById(req.params.id);
 
     res.json(setup);
   } catch (e) {
