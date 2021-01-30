@@ -62,7 +62,7 @@ const FeaturedSetup = () => {
                 <Skeleton variant="rect" height={400} />
               </>
             )}
-          <Typography style={{ paddingTop: 20 }} className={classes.label} variant="body2">Featured Setup—from <a>@liangliu</a></Typography>
+          <Typography style={{ paddingTop: 20 }} className={classes.label} variant="body2">Featured setup from <Link href={"user/9JaxdHJ4URei2QFFxapvSTZafZR2"}><a>@michaelfromyeg</a></Link></Typography>
         </Paper>
       </Grid>
     </Grid>

@@ -63,7 +63,12 @@ router.get("/", async (req, res) => {
     for (filter of filters) {
       const entry = Object.entries(filter)[0];
       if (entry[1] !== "") {
-        mongoFilter[entry[0]] = entry[1];
+        console.log(entry[0])
+        if (entry[0] === "author") {
+          mongoFilter.by = entry[1] + "@gmail.com";
+        } else {
+          mongoFilter[entry[0]] = entry[1];
+        }
       }
     }
   }

@@ -18,6 +18,8 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import Tooltip from '@material-ui/core/Tooltip';
 import axios from 'axios';
+import Chip from '@material-ui/core/Chip';
+import Typography from '@material-ui/core/Typography'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -50,6 +52,8 @@ const headCells = [
   { id: 'title', numeric: false, disablePadding: false, label: 'Title', helpText: 'Sort by title (alphabetical order).' },
   { id: 'date', numeric: false, disablePadding: false, label: 'Date', helpText: 'Sort by date posted.' },
   { id: 'by', numeric: false, disablePadding: false, label: 'Author', helpText: 'Sort by author (alphabetical order).' },
+  { id: 'tags', numeric: false, disablePadding: false, label: 'Tags', helpText: 'Sort by tags.' },
+  { id: 'products', numeric: false, disablePadding: false, label: 'Products', helpText: 'Sort by products.' },
   { id: 'view', numeric: false, disablePadding: false, label: 'View', helpText: 'Hide or save posts.' },
   { id: 'thumbnail', numeric: false, disablePadding: false, label: 'Thumbnail', helpText: 'View post thumbnail.' },
 ];
@@ -103,6 +107,12 @@ EnhancedTableHead.propTypes = {
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    listStyle: 'none',
+    padding: theme.spacing(0.5),
+    margin: 0,
   },
   paper: {
     width: '100%',
@@ -121,6 +131,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 20,
     width: 1,
+  },
+  chip: {
+    margin: theme.spacing(0.5),
   },
 }));
 
@@ -189,7 +202,7 @@ const SetupsTable = ({ data: rows, handleHideRow, handleDataChange }) => {
   }
 
   const emailToUsername = (email) => {
-    return email.split('@')[0]
+    return '@' + email.split('@')[0]
   }
 
   return (
@@ -215,8 +228,24 @@ const SetupsTable = ({ data: rows, handleHideRow, handleDataChange }) => {
                     <TableCell align="left">{row.title}</TableCell>
                     <TableCell align="left">{normalizeDate(row.createdAt)}</TableCell>
                     <TableCell align="left">by <Link href={`/user/${row.author}`}><a>{emailToUsername(row.by)}</a></Link></TableCell>
+                    <TableCell align="left">{row.tags[0].split(',').map((tag, index) => {
+                      return (
+                        <Chip
+                          key={`tag-${index}`}
+                          size="small"
+                          label={tag}
+                          className={classes.chip}
+                        />
+                      );
+                    })}</TableCell>
+                    <TableCell align="left">{row.products[0].slice(0, 2).map((product, index) => {
+                      return (
+                        <Typography variant="body2" key={`product-${index}`}>{product.description}</Typography>
+                      )
+                    })}
+                    </TableCell>
                     <TableCell align="left"><a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row._id) }}>hide</a></TableCell>
-                    <TableCell align="left"><Thumbnail /></TableCell>
+                    <TableCell align="left"><Thumbnail src={row.img} /></TableCell>
                   </TableRow>
                 ))}
           </TableBody>
