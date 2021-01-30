@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Setup = require("../models/setup");
+const User = require("../models/user");
+
 const mongoose = require("mongoose");
 const multer = require("multer");
 var path = require("path");
@@ -20,13 +22,17 @@ var upload = multer({
 });
 
 router.post("/", upload.single("file"), async (req, res) => {
+  // const user = await User.findOne({email: req.body.email})
+  // console.log(user, req.body.email)
+  
   const setup = new Setup({
     img: req.file.filename,
     title: req.body.title || "Untitled",
     description: req.body.description || "No description.",
     tags: req.body.tags || [],
     by: req.body.by,
-    upvotes: 1
+    upvotes: 1,
+    // author: user.id
   });
   let results = await vision.getDataFromImage(req.file.filename);
 
@@ -113,6 +119,50 @@ router.patch("/:id", async (req, res) => {
     res.status(400).send(e);
   }
 });
+
+router.patch("/test", async (req, res) => {
+  res.json(req.boy)
+})
+
+
+router.patch("/:id/products", async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = [
+    "products",
+  ];
+  const isValidOperation = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+
+  if (!isValidOperation) {
+    return res.status(400).send({ error: "Invalid updates!" });
+  }
+
+  try {
+    let setup = await Setup.findById(req.params.id);
+
+    if (!setup) {
+      return res.status(404).send();
+    }
+
+
+    const result = await Setup.updateOne({_id: req.params.id}, {
+      products: [
+        setup.products[0],
+        [...setup.products[1], req.body.products]
+      ]
+    })
+
+     setup = await Setup.findById(req.params.id);
+
+    res.json(setup);
+  } catch (e) {
+    console.log(e)
+    res.status(400).send(e);
+  }
+});
+
+
 
 router.delete("/:id", async (req, res) => {
   try {

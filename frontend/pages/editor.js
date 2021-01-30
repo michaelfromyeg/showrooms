@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Popups = () => {
+const Edit = () => {
   const classes = useStyles()
 
   // eslint-disable-next-line react/jsx-no-undef
@@ -22,4 +22,4 @@ const Popups = () => {
   )
 }
 
-export default Popups
+export default Edit

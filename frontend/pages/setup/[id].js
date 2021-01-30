@@ -7,6 +7,8 @@ import { useRouter } from 'next/router'
 import Layout from '../../layout/layout'
 import { Viewer } from 'photo-sphere-viewer'
 import Skeleton from '@material-ui/lab/Skeleton'
+const axios = require('axios');
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {

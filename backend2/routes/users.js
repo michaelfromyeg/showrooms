@@ -3,10 +3,9 @@ var router = express.Router();
 const User = require("../models/user");
 
 /* GET users listing. */
-router.get("/:id", async (req, res) => {
-  const id = req.params.id;
+router.get("/:email", async (req, res) => {
   try {
-    const user = await User.findOne({ id, user: req.id });
+    const user = await User.findOne({ email: req.params.email });
 
     if (!user) {
       return res.status(404).send();
@@ -14,6 +13,7 @@ router.get("/:id", async (req, res) => {
 
     res.send(user);
   } catch (e) {
+    console.log(e)
     res.status(500).send();
   }
 });
