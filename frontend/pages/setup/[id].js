@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useRouter } from 'next/router'
 import Layout from '../../layout/layout'
 import { Viewer } from 'photo-sphere-viewer'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,8 +50,13 @@ const Setups = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            {setup?.img && (
+            {setup?.img ? (
               <div style={{ width: '100%', height: 400 }} ref={sphereElementRef} />
+            ) : (
+              <>
+                <Skeleton variant="text" height={40} />
+                <Skeleton variant="rect" height={400} />
+              </>
             )}
           </Paper>
         </Grid>

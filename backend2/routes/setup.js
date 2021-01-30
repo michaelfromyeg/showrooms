@@ -4,6 +4,7 @@ const Setup = require("../models/setup");
 const mongoose = require("mongoose");
 const multer = require("multer");
 var path = require("path");
+var vision = require("../vision.js");
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -22,9 +23,19 @@ var upload = multer({
 router.post("/", upload.single("file"), async (req, res) => {
   const setup = new Setup({
     img: req.file.filename,
+    title: req.body.title || "Untitled",
+    description: req.body.description || "No Description",
+    tags: req.body.tags || [],
   });
+  let results = await vision.getDataFromImage(req.file.filename);
+  products = []
+  results.labelAnnotations.forEach((product) => {
+    products.push(product.description)
+  })
+  setup.products = products
   const result = await setup.save();
-  res.json(result);
+  res.json(result)
+  
 });
 
 router.get("/:id", async (req, res) => {
@@ -47,16 +58,16 @@ router.get("/", async (req, res) => {
   const mongoFilter = {};
   if (filters) {
     for (filter of filters) {
-      const entry = Object.entries(filter)[0]
-      if (entry[1] !== '') {
-        mongoFilter[entry[0]] = { $eq: entry[1] }
+      const entry = Object.entries(filter)[0];
+      if (entry[1] !== "") {
+        mongoFilter[entry[0]] = { $eq: entry[1] };
       }
     }
   }
   const limit = parseInt(req.query.limit);
   const skip = parseInt(req.query.skip);
   try {
-    console.log('mongoFilter', mongoFilter)
+    console.log("mongoFilter", mongoFilter);
     const result = await Setup.find(mongoFilter).skip(skip).limit(limit);
     res.send(result);
   } catch (error) {
@@ -67,7 +78,15 @@ router.get("/", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["img", "products", "upvotes", "author", "title", "tags", "description"];
+  const allowedUpdates = [
+    "img",
+    "products",
+    "upvotes",
+    "author",
+    "title",
+    "tags",
+    "description",
+  ];
   const isValidOperation = updates.every((update) =>
     allowedUpdates.includes(update)
   );
