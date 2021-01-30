@@ -16,6 +16,7 @@ const rows = [
 ]
 
 const Index = () => {
+  const [loading, setLoading] = useState(true)
   const [data, setData] = useState(null)
 
   useEffect(() => {
@@ -24,9 +25,11 @@ const Index = () => {
         const result = await fetch('http://localhost:3001/setup')
         const resultJson = await result.json()
         setData(resultJson)
+        setLoading(false)
       } catch (e) {
         console.error(e)
         setData(rows)
+        setLoading(false)
       }
     }
     fetchSetups()
@@ -56,6 +59,7 @@ const Index = () => {
     }
   }
 
+  if (loading) { return <p>Loading...</p> }
   return (
     <Layout title={'Home'}>
       <SetupsForm handleFilterData={handleFilterData} />
