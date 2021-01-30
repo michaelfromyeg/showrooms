@@ -1,27 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import React, { useEffect, useState } from "react"
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
+import firebase from "firebase/app"
+import "firebase/auth"
 
 const firebaseAuthConfig = {
-  signInFlow: 'popup',
+  signInFlow: "popup",
   signInOptions: [
     {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     },
   ],
-  signInSuccessUrl: '/',
-  credentialHelper: 'none',
+  signInSuccessUrl: "/",
+  credentialHelper: "none",
   callbacks: {
-    signInSuccessWithAuthResult: () =>
-      false,
+    signInSuccessWithAuthResult: () => false,
   },
 }
 
 const FirebaseAuth = () => {
   const [renderAuth, setRenderAuth] = useState(false)
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       setRenderAuth(true)
     }
   }, [])
