@@ -21,6 +21,10 @@ const useStyles = makeStyles({
 
 const SetupsTable = ({ data, handleHideRow }) => {
   const classes = useStyles()
+  const normalizeDate = (dateString) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString()
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -43,9 +47,9 @@ const SetupsTable = ({ data, handleHideRow }) => {
                   <Votes index={index} number={5} />
                 </TableCell>
                 <TableCell align="left">{row.title}</TableCell>
-                <TableCell align="left">{row.date}</TableCell>
+                <TableCell align="left">{normalizeDate(row.createdAt)}</TableCell>
                 <TableCell align="left">by <Link href={`/user/${row.author}`}><a>{row.author}</a></Link></TableCell>
-                <TableCell align="left"><a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row.title) }}>{row.view}</a></TableCell>
+                <TableCell align="left"><a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row.title) }}>hide</a></TableCell>
                 <TableCell align="left"><Thumbnail /></TableCell>
               </TableRow>
             ))}
