@@ -28,10 +28,12 @@ router.post("/", upload.single("file"), async (req, res) => {
     tags: req.body.tags || [],
   });
   let results = await vision.getDataFromImage(req.file.filename);
+
   products = []
   results.labelAnnotations.forEach((product) => {
-    products.push(product.description)
+    products.push({"description":product.description, "location":[]})
   })
+  
   setup.products = products
   const result = await setup.save();
   res.json(result)
