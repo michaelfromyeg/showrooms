@@ -46,10 +46,10 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'vote', numeric: true, disablePadding: false, label: 'Vote', helpText: 'Sort by upvotes. Find "best" posts by clicking twice.' },
+  { id: 'upvotes', numeric: true, disablePadding: false, label: 'Vote', helpText: 'Sort by upvotes. Find "best" posts by clicking twice.' },
   { id: 'title', numeric: false, disablePadding: false, label: 'Title', helpText: 'Sort by title (alphabetical order).' },
   { id: 'date', numeric: false, disablePadding: false, label: 'Date', helpText: 'Sort by date posted.' },
-  { id: 'author', numeric: false, disablePadding: false, label: 'Author', helpText: 'Sort by author (alphabetical order).' },
+  { id: 'by', numeric: false, disablePadding: false, label: 'Author', helpText: 'Sort by author (alphabetical order).' },
   { id: 'view', numeric: false, disablePadding: false, label: 'View', helpText: 'Hide or save posts.' },
   { id: 'thumbnail', numeric: false, disablePadding: false, label: 'Thumbnail', helpText: 'View post thumbnail.' },
 ];
@@ -124,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SetupsTable = ({ data: rows, handleHideRow }) => {
+const SetupsTable = ({ data: rows, handleHideRow, handleDataChange }) => {
   const classes = useStyles()
   // const [votes, setVotes] = useState(Array.from({ length: rows ? rows.length : 0 }, (v, i) => i))
   const [clicked, setClicked] = useState(Array.from({ length: rows ? rows.length : 0 }, (v, i) => false))
@@ -162,28 +162,28 @@ const SetupsTable = ({ data: rows, handleHideRow }) => {
 
   const handleVote = async (e, index) => {
     e.preventDefault();
-    console.log(rows[index])
-    if (clicked[index]) {
+    const rowsCopy = rows.slice()
+    const clickedCopy = clicked.slice()
+    handleDataChange(index, clicked[index])
+    if (clickedCopy[index]) {
       await axios({
         method: 'patch',
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${rows[index]._id}`,
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${rowsCopy[index]._id}`,
         data: {
-          upvotes: rows[index].upvotes - 1,
+          upvotes: rowsCopy[index].upvotes,
         },
         headers: {}
       })
     } else {
       await axios({
         method: 'patch',
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${rows[index]._id}`,
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${rowsCopy[index]._id}`,
         data: {
-          upvotes: rows[index].upvotes + 1,
+          upvotes: rowsCopy[index].upvotes,
         },
         headers: {}
       })
     }
-
-    const clickedCopy = clicked.slice()
     clickedCopy[index] = !clickedCopy[index]
     setClicked(clickedCopy)
   }
@@ -215,7 +215,7 @@ const SetupsTable = ({ data: rows, handleHideRow }) => {
                     <TableCell align="left">{row.title}</TableCell>
                     <TableCell align="left">{normalizeDate(row.createdAt)}</TableCell>
                     <TableCell align="left">by <Link href={`/user/${row.author}`}><a>{emailToUsername(row.by)}</a></Link></TableCell>
-                    <TableCell align="left"><a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row.title) }}>hide</a></TableCell>
+                    <TableCell align="left"><a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row._id) }}>hide</a></TableCell>
                     <TableCell align="left"><Thumbnail /></TableCell>
                   </TableRow>
                 ))}
@@ -240,6 +240,7 @@ const SetupsTable = ({ data: rows, handleHideRow }) => {
 }
 
 SetupsTable.propTypes = {
+  handleDataChange: PropTypes.any,
   handleHideRow: PropTypes.any,
   data: PropTypes.any,
 }
