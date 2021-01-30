@@ -56,12 +56,16 @@ router.get("/", async (req, res) => {
   const mongoFilter = {};
   if (filters) {
     for (filter of filters) {
-      mongoFilter[filter.key] = { $eq: filter.value };
+      const entry = Object.entries(filter)[0]
+      if (entry[1] !== '') {
+        mongoFilter[entry[0]] = { $eq: entry[1] }
+      }
     }
   }
   const limit = parseInt(req.query.limit);
   const skip = parseInt(req.query.skip);
   try {
+    console.log('mongoFilter', mongoFilter)
     const result = await Setup.find(mongoFilter).skip(skip).limit(limit);
     res.send(result);
   } catch (error) {

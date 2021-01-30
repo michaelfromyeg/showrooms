@@ -23,7 +23,7 @@ const Index = () => {
       try {
         const result = await fetch('http://localhost:3001/setup')
         const resultJson = await result.json()
-        setData(resultJson.data)
+        setData(resultJson)
       } catch (e) {
         console.error(e)
         setData(rows)
@@ -38,10 +38,18 @@ const Index = () => {
 
   const handleFilterData = async (formData) => {
     try {
-      console.log(formData)
-      const result = await fetch('http://localhost:3001/setup')
+      const url = new URL('http://localhost:3001/setup')
+      const filters = []
+      for (const [key, value] of Object.entries(formData)) {
+        const pair = {}
+        pair[key] = value
+        filters.push(pair)
+      }
+      const filtersString = JSON.stringify(filters)
+      console.log(`${url}?filters=${filtersString}`)
+      const result = await fetch(`${url}?filters=${filtersString}`)
       const resultJson = await result.json()
-      setData(resultJson.data)
+      setData(resultJson)
     } catch (e) {
       console.error(e)
       setData(rows)

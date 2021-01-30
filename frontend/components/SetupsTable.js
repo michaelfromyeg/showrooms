@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
@@ -21,6 +21,23 @@ const useStyles = makeStyles({
 
 const SetupsTable = ({ data, handleHideRow }) => {
   const classes = useStyles()
+  const [votes, setVotes] = useState([1, 2, 3, 4])
+  const [clicked, setClicked] = useState([false, false, false, false])
+
+  const normalizeDate = (dateString) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString()
+  }
+
+  const handleVote = (e, index) => {
+    e.preventDefault();
+    const votesCopy = votes.slice()
+    votesCopy[index] += 1
+    setVotes(votesCopy)
+    const clickedCopy = clicked.slice()
+    clickedCopy[index] = true
+    setClicked(clickedCopy)
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -40,12 +57,12 @@ const SetupsTable = ({ data, handleHideRow }) => {
             data.map((row, index) => (
               <TableRow key={row.title}>
                 <TableCell align="left">
-                  <Votes index={index} number={5} />
+                  <Votes handleVote={handleVote} hasClicked={clicked[index]} index={index} number={votes[index]} />
                 </TableCell>
                 <TableCell align="left">{row.title}</TableCell>
-                <TableCell align="left">{row.date}</TableCell>
+                <TableCell align="left">{normalizeDate(row.createdAt)}</TableCell>
                 <TableCell align="left">by <Link href={`/user/${row.author}`}><a>{row.author}</a></Link></TableCell>
-                <TableCell align="left"><a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row.title) }}>{row.view}</a></TableCell>
+                <TableCell align="left"><a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row.title) }}>hide</a></TableCell>
                 <TableCell align="left"><Thumbnail /></TableCell>
               </TableRow>
             ))}
