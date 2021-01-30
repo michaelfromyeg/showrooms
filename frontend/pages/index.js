@@ -24,6 +24,7 @@ const Index = () => {
       try {
         const result = await fetch('http://localhost:3001/setup')
         const resultJson = await result.json()
+        console.log(resultJson)
         setData(resultJson)
         setLoading(false)
       } catch (e) {
