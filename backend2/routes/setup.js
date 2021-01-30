@@ -4,6 +4,7 @@ const Setup = require("../models/setup");
 const mongoose = require("mongoose");
 const multer = require("multer");
 var path = require("path");
+var vision = require("../vision.js");
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -22,9 +23,17 @@ var upload = multer({
 router.post("/", upload.single("file"), async (req, res) => {
   const setup = new Setup({
     img: req.file.filename,
+    ...req.body
   });
+  let results = await vision.getDataFromImage(req.file.filename);
+  products = []
+  results.labelAnnotations.forEach((product) => {
+    products.push(product.description)
+  })
+  setup.products = products
   const result = await setup.save();
-  res.json(result);
+  res.json(result)
+  
 });
 
 router.get("/:id", async (req, res) => {
