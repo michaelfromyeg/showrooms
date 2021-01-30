@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 const Setups = () => {
   const classes = useStyles()
   const router = useRouter()
-  const id = "601551a4f596023973ce09dd"
+  const { id } = router.query
   const [setup, setSetup] = useState()
 
   useEffect(() => {
@@ -30,19 +30,6 @@ const Setups = () => {
   }, [id])
 
   const sphereElementRef = React.createRef()
-
-  useEffect(() => {
-    if (!setup) return
-    const shperePlayerInstance = new Viewer({
-      container: sphereElementRef.current,
-      panorama: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${id}/image`,
-    })
-
-    // unmount component instructions
-    return () => {
-      shperePlayerInstance.destroy()
-    }
-  }, [setup])
 
   useEffect(() => {
     if (!setup) return

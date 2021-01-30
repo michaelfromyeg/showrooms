@@ -19,21 +19,22 @@ var upload = multer({
   storage,
 });
 
-/* POST setup listing. POST localhost:3000/setup */
 router.post("/", upload.single("file"), async (req, res) => {
   const setup = new Setup({
     img: req.file.filename,
     title: req.body.title || "Untitled",
-    description: req.body.description || "No Description",
+    description: req.body.description || "No description.",
     tags: req.body.tags || [],
+    by: req.body.by,
+    upvotes: 1
   });
   let results = await vision.getDataFromImage(req.file.filename);
 
   products = []
   results.labelAnnotations.forEach((product) => {
-    products.push({"description":product.description, "location":[]})
+    products.push({ "description": product.description, "location": [] })
   })
-  
+
   setup.products = products
   const result = await setup.save();
   res.json(result)

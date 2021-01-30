@@ -21,9 +21,6 @@ const Votes = ({ handleVote, hasClicked, index, number }) => {
     >
       {/* index */}
       {/*`. `*/}
-      <Typography style={hasClicked ? { color: '#0A4ABF' } : null} variant="body1">
-        {number}
-      </Typography>
       <a
         href=""
         style={hasClicked ? { pointerEvents: 'none' } : null}
@@ -31,6 +28,9 @@ const Votes = ({ handleVote, hasClicked, index, number }) => {
       >
         <ExpandLessIcon style={hasClicked ? { color: '#0A4ABF' } : null} />
       </a>
+      <Typography style={hasClicked ? { color: '#0A4ABF' } : null} variant="body1">
+        {number}
+      </Typography>
     </Container >
   )
 }

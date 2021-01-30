@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { withAuthUser } from 'next-firebase-auth'
+import { useAuthUser, withAuthUser } from 'next-firebase-auth'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Layout from '../../../layout/layout'
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Setups = () => {
+  const AuthUser = useAuthUser()
   const classes = useStyles()
   const [tags, setTags] = useState([])
   const [title, setTitle] = useState('')
@@ -44,6 +45,8 @@ const Setups = () => {
     formData.append('title', title)
     formData.append('description', description)
     formData.append('tags', tags)
+    formData.append('by', AuthUser.email)
+    // formData.append('upvotes', 1)
 
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup`,
