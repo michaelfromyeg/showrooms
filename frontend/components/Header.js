@@ -58,7 +58,7 @@ const Header = ({ email, signOut }) => {
                 <AddCircleIcon />
               </IconButton>
             </Link>
-            <Link href={`/user/${AuthUser.id}`}>
+            <Link href={`/user/${emailToUsername(email)}`}>
               <IconButton color="inherit">
                 <AccountCircleIcon />
               </IconButton>
