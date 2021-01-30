@@ -24,7 +24,7 @@ const ProductCard = ({ productSku, isUser }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch(`https://www.bestbuy.ca/api/v2/json/product/13494101`)
+    fetch(`https://www.bestbuy.ca/api/v2/json/product/${productSku}?currentRegion=ON&include=all&lang=en-CA`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -38,50 +38,48 @@ const ProductCard = ({ productSku, isUser }) => {
       )
   }, [])
   
-    
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  } else if (!isLoaded) {
+    return <div>Loading...</div>;
+  } else {
     return (
       <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Liang Liu"
-          height="140"
-          image="https://www.vmcdn.ca/f/files/glaciermedia/import/lmp-all/1400501-28scholarship-web2.jpg;w=960"
-          title="Liang Liu"
+          alt={items.name}
+          height="200"
+          image={items.thumbnailImage}
+          title={items.name}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+            {items.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+            {items.shortDescription}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
         {
         isUser ?          
-        <Button size="small" color="primary">
+        <Button size="medium" color="green">
+          <a href="https://www.bestbuy.ca/en-ca" target="_blank">
           Add to Cart
+          </a>
       </Button>:
-        <Button size="small" color="primary">
+        <Button size="medium" color="primary">
+          <a href={items.productUrl} target="_blank">
           Go To Product
+          </a>
         </Button>
         }
       </CardActions>
     </Card>
-    )
-      // if (error) {
-      //     return <div>Error: {error.message}</div>;
-      //   } else if (!isLoaded) {
-      //     return <div>Loading...</div>;
-      //   } else {
-      //     return (
-      //       <p> ur gay </p>
-      //     )
-      // }
-      
+    )        
+}
 }
 
 export default ProductCard
