@@ -203,7 +203,7 @@ const SetupsTable = ({ data: rows, handleHideRow, handleDataChange }) => {
 
   const emailToUsername = (email) => {
     if (!email) return
-    return '@' + email.split('@')[0]
+    return email.split('@')[0]
   }
 
   return (
@@ -228,8 +228,8 @@ const SetupsTable = ({ data: rows, handleHideRow, handleDataChange }) => {
                     </TableCell>
                     <TableCell align="left">{row.title}</TableCell>
                     <TableCell align="left">{normalizeDate(row.createdAt)}</TableCell>
-                    <TableCell align="left">by <Link href={`/user/${row.author}`}><a>{emailToUsername(row.by)}</a></Link></TableCell>
-                    <TableCell align="left">{row.tags[0].split(',').map((tag, index) => {
+                    <TableCell align="left">by <Link href={`/user/${emailToUsername(row.by)}`}><a>{'@' + emailToUsername(row.by)}</a></Link></TableCell>
+                    <TableCell align="left">{row.tags[0] && row.tags[0].split(',').map((tag, index) => {
                       return (
                         <Chip
                           key={`tag-${index}`}
