@@ -5,6 +5,7 @@ import {
   withAuthUserTokenSSR,
 } from 'next-firebase-auth'
 import Header from '../components/Header'
+import Button from '@material-ui/core/Button';
 
 const styles = {
   content: {
@@ -31,6 +32,7 @@ const Demo = () => {
             If you remove `getServerSideProps` from this page, it will be static
             and load the authed user only on the client side.
           </p>
+          <Button color="primary" variant="contained">My App</Button>
         </div>
       </div>
     </div>
