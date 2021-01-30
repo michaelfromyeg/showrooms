@@ -42,18 +42,24 @@ router.get("/:id/image", async (req, res) => {
   res.sendFile(path.resolve("./uploads/" + result.img));
 });
 
-// TODO wack filtering
-
-router.get('/', async (req,res) => {
-  const limit = parseInt(req.query.limit); 
-  const skip = parseInt(req.query.skip); 
+router.get('/', async (req, res) => {
+  const filters = req.query.filters ? JSON.parse(req.query.filters) : null;
+  const mongoFilter = {}
+  if (filters) {
+    for (filter of filters) {
+      mongoFilter[filter.key] = { '$eq': filter.value };
+    }
+  }
+  const limit = parseInt(req.query.limit);
+  const skip = parseInt(req.query.skip);
   try {
-    const setup = await Setup.find({}).skip(skip).limit(limit)
-    res.send(setup)
-} catch(error) {
+    const result = await setup.find(mongoFilter).skip(skip).limit(limit)
+    res.send(result)
+  } catch (error) {
+    console.error(error);
     res.status(500).send(error)
-}})
-
+  }
+})
 
 router.patch("/:id", async (req, res) => {
   const updates = Object.keys(req.body)
@@ -61,22 +67,22 @@ router.patch("/:id", async (req, res) => {
   const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
   if (!isValidOperation) {
-      return res.status(400).send({ error: 'Invalid updates!' })
+    return res.status(400).send({ error: 'Invalid updates!' })
   }
 
   try {
-      const setup = await Setup.findOne({id: req.params._id})
+    const setup = await Setup.findOne({ id: req.params._id })
 
-      if (!setup) {
-          return res.status(404).send()
-      }
+    if (!setup) {
+      return res.status(404).send()
+    }
 
-      updates.forEach((update) => setup[update] = req.body[update])
-      await setup.save()
+    updates.forEach((update) => setup[update] = req.body[update])
+    await setup.save()
 
-      res.send(setup)
+    res.send(setup)
   } catch (e) {
-      res.status(400).send(e)
+    res.status(400).send(e)
   }
 })
 

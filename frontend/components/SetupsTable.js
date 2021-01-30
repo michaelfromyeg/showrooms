@@ -56,6 +56,7 @@ const SetupsTable = ({ data, handleHideRow }) => {
 }
 
 SetupsTable.propTypes = {
+  handleHideRow: PropTypes.any,
   data: PropTypes.any,
 }
 

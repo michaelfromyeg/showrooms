@@ -36,9 +36,21 @@ const Index = () => {
     setData(data.filter(row => row.title !== title))
   }
 
+  const handleFilterData = async (formData) => {
+    try {
+      console.log(formData)
+      const result = await fetch('http://localhost:3001/setup')
+      const resultJson = await result.json()
+      setData(resultJson.data)
+    } catch (e) {
+      console.error(e)
+      setData(rows)
+    }
+  }
+
   return (
     <Layout title={'Home'}>
-      <SetupsForm />
+      <SetupsForm handleFilterData={handleFilterData} />
       <SetupsTable data={data} handleHideRow={handleHideRow} />
     </Layout>
   )
