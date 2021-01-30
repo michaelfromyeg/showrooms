@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Setup = require("../models/Setup");
+const setup = require("../models/setup");
 const mongoose = require("mongoose");
 const multer = require("multer");
 var path = require("path");
@@ -20,7 +20,7 @@ var upload = multer({
 
 /* POST setup listing. POST localhost:3000/setup */
 router.post("/", upload.single("file"), async (req, res) => {
-  const setup = new Setup({
+  const setup = new setup({
     img: req.file.filename,
   });
   const result = await setup.save();
@@ -29,7 +29,7 @@ router.post("/", upload.single("file"), async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const result = await Setup.findById(req.params.id);
+    const result = await setup.findById(req.params.id);
     res.json(result);
   } catch (err) {
     res.json(err);
@@ -37,7 +37,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.get("/:id/image", async (req, res) => {
-  const result = await Setup.findById(req.params.id);
+  const result = await setup.findById(req.params.id);
   console.log(result);
   res.sendFile(path.resolve("./uploads/" + result.img));
 });
@@ -83,7 +83,7 @@ router.patch("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const setup = await Setup.findOneAndDelete({
+    const setup = await setup.findOneAndDelete({
       _id: req.params.id,
     });
 
