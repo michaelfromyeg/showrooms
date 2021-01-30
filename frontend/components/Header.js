@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,24 +34,23 @@ const Header = ({ email, signOut }) => {
     </Typography>
     {email ? (
       <>
-        <p>Signed in as {email}</p>
-        <button
-          type="button"
+        <Typography variant="body2">Signed in as {email}</Typography>
+        <Button color="inherit"
           onClick={() => {
             signOut()
           }}
         >
           Sign out
-        </button>
+        </Button>
       </>
     ) : (
       <>
-        <p>You are not signed in.</p>
+        <Typography variant="body2">You are not signed in.</Typography>
         <Link href="/auth">
           <a>
-            <button type="button">
+            <Button color="inherit">
               Sign in
-            </button>
+            </Button>
           </a>
         </Link>
       </>
