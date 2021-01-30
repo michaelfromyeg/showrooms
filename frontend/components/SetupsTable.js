@@ -17,7 +17,9 @@ import Switch from '@material-ui/core/Switch';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import Tooltip from '@material-ui/core/Tooltip';
-
+import axios from 'axios';
+import Chip from '@material-ui/core/Chip';
+import Typography from '@material-ui/core/Typography'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -46,10 +48,12 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'vote', numeric: true, disablePadding: false, label: 'Vote', helpText: 'Sort by upvotes. Find "best" posts by clicking twice.' },
+  { id: 'upvotes', numeric: true, disablePadding: false, label: 'Vote', helpText: 'Sort by upvotes. Find "best" posts by clicking twice.' },
   { id: 'title', numeric: false, disablePadding: false, label: 'Title', helpText: 'Sort by title (alphabetical order).' },
   { id: 'date', numeric: false, disablePadding: false, label: 'Date', helpText: 'Sort by date posted.' },
-  { id: 'author', numeric: false, disablePadding: false, label: 'Author', helpText: 'Sort by author (alphabetical order).' },
+  { id: 'by', numeric: false, disablePadding: false, label: 'Author', helpText: 'Sort by author (alphabetical order).' },
+  { id: 'tags', numeric: false, disablePadding: false, label: 'Tags', helpText: 'Sort by tags.' },
+  { id: 'products', numeric: false, disablePadding: false, label: 'Products', helpText: 'Sort by products.' },
   { id: 'view', numeric: false, disablePadding: false, label: 'View', helpText: 'Hide or save posts.' },
   { id: 'thumbnail', numeric: false, disablePadding: false, label: 'Thumbnail', helpText: 'View post thumbnail.' },
 ];
@@ -103,6 +107,12 @@ EnhancedTableHead.propTypes = {
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    listStyle: 'none',
+    padding: theme.spacing(0.5),
+    margin: 0,
   },
   paper: {
     width: '100%',
@@ -122,11 +132,14 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
+  chip: {
+    margin: theme.spacing(0.5),
+  },
 }));
 
-const SetupsTable = ({ data: rows, handleHideRow }) => {
+const SetupsTable = ({ data: rows, handleHideRow, handleDataChange }) => {
   const classes = useStyles()
-  const [votes, setVotes] = useState(Array.from({ length: rows ? rows.length : 0 }, (v, i) => i))
+  // const [votes, setVotes] = useState(Array.from({ length: rows ? rows.length : 0 }, (v, i) => i))
   const [clicked, setClicked] = useState(Array.from({ length: rows ? rows.length : 0 }, (v, i) => false))
   const [dense, setDense] = React.useState(false);
   const [order, setOrder] = React.useState('asc');
@@ -149,7 +162,7 @@ const SetupsTable = ({ data: rows, handleHideRow }) => {
     setPage(0);
   };
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const normalizeDate = (dateString) => {
     const date = new Date(dateString)
@@ -160,14 +173,37 @@ const SetupsTable = ({ data: rows, handleHideRow }) => {
     setDense(event.target.checked);
   };
 
-  const handleVote = (e, index) => {
+  const handleVote = async (e, index) => {
     e.preventDefault();
-    const votesCopy = votes.slice()
-    votesCopy[index] += 1
-    setVotes(votesCopy)
+    const rowsCopy = rows.slice()
     const clickedCopy = clicked.slice()
-    clickedCopy[index] = true
+    handleDataChange(index, clicked[index])
+    if (clickedCopy[index]) {
+      await axios({
+        method: 'patch',
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${rowsCopy[index]._id}`,
+        data: {
+          upvotes: rowsCopy[index].upvotes,
+        },
+        headers: {}
+      })
+    } else {
+      await axios({
+        method: 'patch',
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${rowsCopy[index]._id}`,
+        data: {
+          upvotes: rowsCopy[index].upvotes,
+        },
+        headers: {}
+      })
+    }
+    clickedCopy[index] = !clickedCopy[index]
     setClicked(clickedCopy)
+  }
+
+  const emailToUsername = (email) => {
+    if (!email) return
+    return '@' + email.split('@')[0]
   }
 
   return (
@@ -188,13 +224,43 @@ const SetupsTable = ({ data: rows, handleHideRow }) => {
                 .map((row, index) => (
                   <TableRow style={{ height: (dense ? 4 : 8) * rows.length }} key={`${row.title}-${index}`}>
                     <TableCell align="left">
-                      <Votes handleVote={handleVote} hasClicked={clicked[index]} index={index} number={votes[index]} />
+                      <Votes handleVote={handleVote} hasClicked={clicked[index]} index={index} number={row.upvotes} />
                     </TableCell>
                     <TableCell align="left">{row.title}</TableCell>
                     <TableCell align="left">{normalizeDate(row.createdAt)}</TableCell>
-                    <TableCell align="left">by <Link href={`/user/${row.author}`}><a>{row.author}</a></Link></TableCell>
-                    <TableCell align="left"><a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row.title) }}>hide</a></TableCell>
-                    <TableCell align="left"><Thumbnail /></TableCell>
+                    <TableCell align="left">by <Link href={`/user/${row.author}`}><a>{emailToUsername(row.by)}</a></Link></TableCell>
+                    <TableCell align="left">{row.tags[0].split(',').map((tag, index) => {
+                      return (
+                        <Chip
+                          key={`tag-${index}`}
+                          size="small"
+                          label={tag}
+                          className={classes.chip}
+                        />
+                      );
+                    })}</TableCell>
+                    <TableCell align="left">{row.products[0].slice(0, 2).map((product, index) => {
+                      return (
+                        <Typography variant="body2" key={`product-${index}`}>{product.description}</Typography>
+                      )
+                    })}
+                    </TableCell>
+                    <TableCell align="left">
+                      <>
+                        <Link href={`/setup/${row._id}`}>
+                          <a href="">view</a>
+                        </Link>
+                        <br />
+                        <a href="" onClick={(e) => { e.preventDefault(); handleHideRow(row._id) }}>hide</a>
+                      </>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Link href={`/setup/${row._id}`}>
+                        <a>
+                          <Thumbnail id={row._id} src={row.img} />
+                        </a>
+                      </Link>
+                    </TableCell>
                   </TableRow>
                 ))}
           </TableBody>
@@ -218,6 +284,7 @@ const SetupsTable = ({ data: rows, handleHideRow }) => {
 }
 
 SetupsTable.propTypes = {
+  handleDataChange: PropTypes.any,
   handleHideRow: PropTypes.any,
   data: PropTypes.any,
 }

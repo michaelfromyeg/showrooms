@@ -37,8 +37,8 @@ const Index = () => {
     fetchSetups()
   }, [])
 
-  const handleHideRow = (title) => {
-    setData(data.filter(row => row.title !== title))
+  const handleHideRow = (id) => {
+    setData(data.filter(row => row._id !== id))
   }
 
   const handleFilterData = async (formData) => {
@@ -61,12 +61,18 @@ const Index = () => {
     }
   }
 
+  const handleDataChange = (index, clicked) => {
+    const dataCopy = data.slice()
+    dataCopy[index].upvotes = clicked ? dataCopy[index].upvotes - 1 : dataCopy[index].upvotes + 1
+    setData(dataCopy)
+  }
+
   if (loading) { return <p>Loading...</p> }
   return (
     <Layout title={'Home'}>
       <FeaturedSetup />
       <SetupsForm handleFilterData={handleFilterData} />
-      <SetupsTable data={data} handleHideRow={handleHideRow} />
+      <SetupsTable data={data} handleHideRow={handleHideRow} handleDataChange={handleDataChange} />
     </Layout>
   )
 }

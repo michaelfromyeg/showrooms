@@ -1,11 +1,12 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { withAuthUser } from 'next-firebase-auth'
-import Header from '../../components/Header'
 import { useAuthUser } from 'next-firebase-auth'
 import { useRouter } from 'next/router'
 import UserProfile from '../../components/UserProfile'
 import Grid from '@material-ui/core/Grid'
+import Layout from '../../layout/layout'
+import ProductCard from '../../components/ProductCard'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,23 +25,29 @@ const User = () => {
   const router = useRouter()
   const { user } = router.query
 
+  const emailToUsername = (email) => {
+    return email.split('@')[0]
+  }
+
+
   return (
-    <>
-      <Header email={AuthUser.email} signOut={AuthUser.signOut} />
+    <Layout title={'Profile'}>
       <Grid container justify="center" className={classes.root} spacing={2}>
         <Grid item xs={12}>
-          <h3>User: {user}</h3>
+          <h1>Welcome back, {AuthUser.email ? emailToUsername(AuthUser.email) + '!' : '...'}</h1>
+          <p>Here is your profile page. Feel free to update your setup or add a new build.</p>
         </Grid>
         <Grid item xs={12}>
           {AuthUser.id === user && (
-            <>
-              <h3>This is your page.</h3>
-              <UserProfile user={AuthUser} />
-            </>
+            <UserProfile user={AuthUser} />
           )}
         </Grid>
+        <Grid item xs={12}>
+          <h2>Edit your setup</h2>
+          <ProductCard productSku={"14932190"} isUser={true} />
+        </Grid>
       </Grid>
-    </>
+    </Layout>
   )
 }
 

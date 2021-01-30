@@ -32,6 +32,8 @@ const Header = ({ email, signOut }) => {
     return email.split('@')[0]
   }
 
+  // console.log(AuthUser)
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -56,7 +58,7 @@ const Header = ({ email, signOut }) => {
                 <AddCircleIcon />
               </IconButton>
             </Link>
-            <Link href={`/setup/new`}>
+            <Link href={`/user/${AuthUser.id}`}>
               <IconButton color="inherit">
                 <AccountCircleIcon />
               </IconButton>

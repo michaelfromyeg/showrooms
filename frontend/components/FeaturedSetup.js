@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 const FeaturedSetup = () => {
   const classes = useStyles()
   const router = useRouter()
-  const id = "601551a4f596023973ce09dd"
+  const id = "6015ba03f7cf6d6ad6cd0f17"
   const [setup, setSetup] = useState()
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const FeaturedSetup = () => {
                 <Skeleton variant="rect" height={400} />
               </>
             )}
-          <Typography style={{ paddingTop: 20 }} className={classes.label} variant="body2">Featured Setup—from <a>@liangliu</a></Typography>
+          <Typography style={{ paddingTop: 20 }} className={classes.label} variant="body2">Featured setup from <Link href={"user/9JaxdHJ4URei2QFFxapvSTZafZR2"}><a>@michaelfromyeg</a></Link></Typography>
         </Paper>
       </Grid>
     </Grid>
