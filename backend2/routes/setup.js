@@ -21,11 +21,15 @@ var upload = multer({
 
 /* POST setup listing. POST localhost:3000/setup */
 router.post("/", upload.single("file"), async (req, res) => {
-  console.log(req.file);
-  console.log(req.body.file);
   const setup = new Setup({
     img: req.file.filename,
+<<<<<<< Updated upstream
     ...req.body
+=======
+    title: req.body.title || "Untitled",
+    description: req.body.description || "No Description",
+    tags: req.body.tags || [],
+>>>>>>> Stashed changes
   });
   let results = await vision.getDataFromImage(req.file.filename);
   products = []
@@ -58,16 +62,16 @@ router.get("/", async (req, res) => {
   const mongoFilter = {};
   if (filters) {
     for (filter of filters) {
-      const entry = Object.entries(filter)[0]
-      if (entry[1] !== '') {
-        mongoFilter[entry[0]] = { $eq: entry[1] }
+      const entry = Object.entries(filter)[0];
+      if (entry[1] !== "") {
+        mongoFilter[entry[0]] = { $eq: entry[1] };
       }
     }
   }
   const limit = parseInt(req.query.limit);
   const skip = parseInt(req.query.skip);
   try {
-    console.log('mongoFilter', mongoFilter)
+    console.log("mongoFilter", mongoFilter);
     const result = await Setup.find(mongoFilter).skip(skip).limit(limit);
     res.send(result);
   } catch (error) {
@@ -78,7 +82,15 @@ router.get("/", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["img", "products", "upvotes", "author", "title", "tags", "description"];
+  const allowedUpdates = [
+    "img",
+    "products",
+    "upvotes",
+    "author",
+    "title",
+    "tags",
+    "description",
+  ];
   const isValidOperation = updates.every((update) =>
     allowedUpdates.includes(update)
   );
