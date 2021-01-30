@@ -3,12 +3,10 @@ import PropTypes from 'prop-types'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import ProductCard from './ProductCard'
 // import Grid from '@material-ui/core/Grid';
 
 const UserProfile = ({ user }) => (
   <div>
-      <ProductCard />
     <h1>Edit your profile</h1>
     <Formik
       initialValues={{ email: user.email, name: '' }}
