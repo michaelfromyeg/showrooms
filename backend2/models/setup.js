@@ -23,6 +23,5 @@ const setupSchema = new mongoose.Schema(
   }
 );
 
-const setup = mongoose.model("Setup", setupSchema);
-
+const setup = mongoose.model("setup", setupSchema);
 module.exports = setup;

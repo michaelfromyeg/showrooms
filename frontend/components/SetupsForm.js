@@ -1,21 +1,20 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 // import Grid from '@material-ui/core/Grid';
 
-const SetupsForm = () => (
+const SetupsForm = ({ handleFilterData }) => (
   <div>
     <h1>Filter setups</h1>
     <Formik
       initialValues={{ setupType: '', author: '' }}
       validate={() => { }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2))
-          setSubmitting(false)
-        }, 400)
+      onSubmit={async (values, { setSubmitting }) => {
+        alert(JSON.stringify(values, null, 2))
+        await handleFilterData(values)
+        setSubmitting(false)
       }}
     >
       {({ isSubmitting }) => (
@@ -36,6 +35,8 @@ const SetupsForm = () => (
   </div>
 )
 
-SetupsForm.propTypes = {}
+SetupsForm.propTypes = {
+  handleFilterData: PropTypes.any
+}
 
 export default SetupsForm
