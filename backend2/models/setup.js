@@ -14,6 +14,9 @@ const setupSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    upvotes: {
+      type: Number,
+    }
   },
   {
     timestamps: true,

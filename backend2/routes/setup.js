@@ -45,8 +45,10 @@ router.get("/:id/image", async (req, res) => {
 // TODO wack filtering
 
 router.get('/', async (req,res) => {
+  const limit = parseInt(req.query.limit); 
+  const skip = parseInt(req.query.skip); 
   try {
-    const setup = await Setup.find({})
+    const setup = await Setup.find({}).skip(skip).limit(limit)
     res.send(setup)
 } catch(error) {
     res.status(500).send(error)
