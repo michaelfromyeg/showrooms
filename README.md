@@ -1,6 +1,6 @@
 # showrooms
 
-Showcase your setup, generate affiliciate revenue, and discover new products. All centralized, and connected directly to BestBuy.com
+Showcase your setup, generate affiliciate revenue, and discover new products. All centralized, and connected directly to Best Buy.
 
 ## About
 
@@ -28,6 +28,8 @@ This project is actively under development for [BizHacks 2021](https://www.bizha
 - [x] As a user, I can view a 3D, interactive photo of someone’s setup
 - [x] As a user, I can query setups (search, filter, sort, etc.)
 - [ ] As a user, ... (TODO)
+
+`export GOOGLE_APPLICATION_CREDENTIALS="/home/mdema/code/bizhacks/setups-by-bestbuy-aabcaac9fb68.json"`
 
 ## Credit
 

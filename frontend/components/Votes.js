@@ -21,7 +21,7 @@ const Votes = ({ handleVote, hasClicked, index, number }) => {
     >
       {/* index */}
       {/*`. `*/}
-      <Typography style={hasClicked ? { color: '#0A4ABF' } : null} alignCenter variant="body1">
+      <Typography style={hasClicked ? { color: '#0A4ABF' } : null} variant="body1">
         {number}
       </Typography>
       <a

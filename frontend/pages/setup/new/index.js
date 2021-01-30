@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { withAuthUser } from 'next-firebase-auth'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
-import Layout from '../layout/layout'
+import Layout from '../../../layout/layout'
 import { makeStyles } from '@material-ui/core/styles'
 import { DropzoneArea } from 'material-ui-dropzone'
 import { Button, TextField } from '@material-ui/core'
@@ -88,7 +88,7 @@ const Setups = () => {
               filesLimit={1}
               onChange={handleChange}
             />
-            <Button onClick={submit} variant="contained">
+            <Button onClick={submit} variant="contained" color="primary" style={{ paddingTop: 5 }}>
               Submit
             </Button>
           </Paper>

@@ -91,13 +91,13 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
+  classes: PropTypes.object,
+  numSelected: PropTypes.number,
+  onRequestSort: PropTypes.func,
+  onSelectAllClick: PropTypes.func,
+  order: PropTypes.oneOf(['asc', 'desc']),
+  orderBy: PropTypes.string,
+  rowCount: PropTypes.number,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -186,7 +186,7 @@ const SetupsTable = ({ data: rows, handleHideRow }) => {
               stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
-                  <TableRow style={{ height: (dense ? 4 : 8) * rows.length }} key={row.title}>
+                  <TableRow style={{ height: (dense ? 4 : 8) * rows.length }} key={`${row.title}-${index}`}>
                     <TableCell align="left">
                       <Votes handleVote={handleVote} hasClicked={clicked[index]} index={index} number={votes[index]} />
                     </TableCell>

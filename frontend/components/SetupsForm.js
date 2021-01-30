@@ -40,7 +40,7 @@ const SetupsForm = ({ handleFilterData }) => {
         </AccordionSummary>
         <AccordionDetails>
           <Formik
-            initialValues={{ titile: '', date: null, author: '', tags: '' }}
+            initialValues={{ titile: '', date: '', author: '', tags: '' }}
             validate={() => { }}
             onSubmit={async (values, { setSubmitting }) => {
               await handleFilterData(values)
