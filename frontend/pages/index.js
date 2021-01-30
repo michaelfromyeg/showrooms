@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth'
 import SetupsTable from '../components/SetupsTable'
 import SetupsForm from '../components/SetupsForm'
+import FeaturedSetup from '../components/FeaturedSetup'
 import Layout from '../layout/layout'
 
 const createData = (title, date, author, view) => {
@@ -63,6 +64,7 @@ const Index = () => {
   if (loading) { return <p>Loading...</p> }
   return (
     <Layout title={'Home'}>
+      <FeaturedSetup />
       <SetupsForm handleFilterData={handleFilterData} />
       <SetupsTable data={data} handleHideRow={handleHideRow} />
     </Layout>
