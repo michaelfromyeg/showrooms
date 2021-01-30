@@ -21,7 +21,7 @@ const setupSchema = new mongoose.Schema(
       type: String
     },
     tags: {
-      type: List[String]
+      type: [String]
     },
     description: {
       type: String
