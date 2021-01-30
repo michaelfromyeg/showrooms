@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const setup = require("../models/setup");
+const Setup = require("../models/setup");
 const mongoose = require("mongoose");
 const multer = require("multer");
 var path = require("path");
@@ -20,7 +20,7 @@ var upload = multer({
 
 /* POST setup listing. POST localhost:3000/setup */
 router.post("/", upload.single("file"), async (req, res) => {
-  const setup = new setup({
+  const setup = new Setup({
     img: req.file.filename,
   });
   const result = await setup.save();
