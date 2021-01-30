@@ -21,6 +21,8 @@ var upload = multer({
 
 /* POST setup listing. POST localhost:3000/setup */
 router.post("/", upload.single("file"), async (req, res) => {
+  console.log(req.file);
+  console.log(req.body.file);
   const setup = new Setup({
     img: req.file.filename,
     ...req.body
