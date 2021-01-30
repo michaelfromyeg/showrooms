@@ -1,5 +1,5 @@
-import React from 'react'
-import { withAuthUser, AuthAction } from 'next-firebase-auth'
+import React from "react"
+import { withAuthUser, AuthAction } from "next-firebase-auth"
 
 const User = () => (
   <div>

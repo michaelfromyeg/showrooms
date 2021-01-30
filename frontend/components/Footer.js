@@ -1,8 +1,5 @@
-import React from 'react'
-import Link from 'next/link'
+import React from "react"
 
-const Footer = ({ email, signOut }) => (
-  <h1>Footer</h1>
-)
+const Footer = () => <h1>Footer</h1>
 
 export default Footer
