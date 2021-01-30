@@ -11,7 +11,8 @@ async function getDataFromImage(file) {
       source: { filename: `./uploads/${file}`},
     },
     features: [
-      { type: "LABEL_DETECTION" },
+      { type: "LABEL_DETECTION"},
+      { type: "OBJECT_LOCALIZATION" }
     ],
   });
 
