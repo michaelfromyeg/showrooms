@@ -1,10 +1,10 @@
-import React from "react"
-import { useAuthUser, withAuthUser, AuthAction } from "next-firebase-auth"
-import FirebaseAuth from "../components/FirebaseAuth"
-import Header from "../components/Header"
-import { makeStyles } from "@material-ui/core/styles"
-import Grid from "@material-ui/core/Grid"
-import Paper from "@material-ui/core/Paper"
+import React from 'react'
+import { useAuthUser, withAuthUser, AuthAction } from 'next-firebase-auth'
+import FirebaseAuth from '../components/FirebaseAuth'
+import Header from '../components/Header'
+import { makeStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: "center",
+    textAlign: 'center',
     color: theme.palette.text.secondary,
   },
 }))

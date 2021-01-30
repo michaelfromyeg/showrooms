@@ -1,28 +1,28 @@
-import { verifyIdToken } from "next-firebase-auth"
-import initAuth from "../../utils/initAuth"
+import { verifyIdToken } from 'next-firebase-auth'
+import initAuth from '../../utils/initAuth'
 
 initAuth()
 
 const handler = async (req, res) => {
   if (!(req.headers && req.headers.authorization)) {
-    return res.status(400).json({ error: "Missing Authorization header value" })
+    return res.status(400).json({ error: 'Missing Authorization header value' })
   }
   const token = req.headers.authorization
 
   let favoriteColor
 
-  if (token === "unauthenticated") {
-    favoriteColor = "unknown, because you called the API without an ID token"
+  if (token === 'unauthenticated') {
+    favoriteColor = 'unknown, because you called the API without an ID token'
   } else {
     try {
       await verifyIdToken(token)
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e)
-      return res.status(403).json({ error: "Not authorized" })
+      return res.status(403).json({ error: 'Not authorized' })
     }
 
-    const colors = ["sea foam green", "light purple", "teal", "taupe", "dark grey"]
+    const colors = ['sea foam green', 'light purple', 'teal', 'taupe', 'dark grey']
     favoriteColor = colors[Math.floor(Math.random() * colors.length)]
   }
 

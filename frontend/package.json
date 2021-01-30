@@ -28,13 +28,15 @@
     "@material-ui/icons": "^4.11.2",
     "firebase": "^8.2.5",
     "firebase-admin": "^9.4.2",
+    "formik": "^2.2.6",
     "next": "10.0.6",
     "next-firebase-auth": "^0.10.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-firebaseui": "^4.1.0",
     "react-toastify": "^7.0.2",
-    "sass": "^1.32.5"
+    "sass": "^1.32.5",
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "eslint": "^7.18.0",

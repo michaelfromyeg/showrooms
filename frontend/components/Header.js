@@ -1,13 +1,14 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { makeStyles } from "@material-ui/core/styles"
-import Link from "next/link"
-import AppBar from "@material-ui/core/AppBar"
-import Typography from "@material-ui/core/Typography"
-import Toolbar from "@material-ui/core/Toolbar"
-import IconButton from "@material-ui/core/IconButton"
-import MenuIcon from "@material-ui/icons/Menu"
-import Button from "@material-ui/core/Button"
+import React from 'react'
+import { useAuthUser } from 'next-firebase-auth'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
+import Link from 'next/link'
+import AppBar from '@material-ui/core/AppBar'
+import Typography from '@material-ui/core/Typography'
+import Toolbar from '@material-ui/core/Toolbar'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
+import Button from '@material-ui/core/Button'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Header = ({ email, signOut }) => {
+  const AuthUser = useAuthUser()
   const classes = useStyles()
-
   return (
     <AppBar position="static">
       <Toolbar>
@@ -41,6 +42,11 @@ const Header = ({ email, signOut }) => {
         {email ? (
           <>
             <Typography variant="body2">Signed in as {email}</Typography>
+            <Link href={`/user/${AuthUser.id}`}>
+              <a>
+                <Button color="inherit">Account</Button>
+              </a>
+            </Link>
             <Button
               color="inherit"
               onClick={() => {
@@ -51,15 +57,15 @@ const Header = ({ email, signOut }) => {
             </Button>
           </>
         ) : (
-          <>
-            <Typography variant="body2">You are not signed in.</Typography>
-            <Link href="/auth">
-              <a>
-                <Button color="inherit">Sign in</Button>
-              </a>
-            </Link>
-          </>
-        )}
+            <>
+              <Typography variant="body2">You are not signed in.</Typography>
+              <Link href="/auth">
+                <a>
+                  <Button color="inherit">Sign in</Button>
+                </a>
+              </Link>
+            </>
+          )}
       </Toolbar>
     </AppBar>
   )
