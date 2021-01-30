@@ -5,31 +5,43 @@ import {
   withAuthUserTokenSSR,
 } from 'next-firebase-auth'
 import Header from '../components/Header'
-import Button from '@material-ui/core/Button';
+import Footer from '../components/Footer'
+import { makeStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+import { toast } from 'react-toastify'
 
-const Demo = () => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+}));
+
+const Index = () => {
   const AuthUser = useAuthUser()
+  const classes = useStyles();
+  
+  const notify = () => toast("Wow so easy!");
+  
   return (
-    <div>
+    <div className={classes.root}>
       <Header email={AuthUser.email} signOut={AuthUser.signOut} />
-      <div>
-        <div>
-          <h3>Home</h3>
-          <p>
-            This page does not require authentication, so it won't redirect to
-            the login page if you are not signed in.
-          </p>
-          <p>
-            If you remove `getServerSideProps` from this page, it will be static
-            and load the authed user only on the client side.
-          </p>
-          <Button color="primary" variant="contained">This is a MaterialUI button</Button>
-        </div>
-      </div>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>xs=12</Paper>
+        </Grid>
+      </Grid>
+      <Footer />
     </div>
   )
 }
 
 export const getServerSideProps = withAuthUserTokenSSR()()
 
-export default withAuthUser()(Demo)
+export default withAuthUser()(Index)
