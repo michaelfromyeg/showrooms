@@ -50,10 +50,32 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.get("/user/:user", async (req, res) => {
+  try {
+    console.log('GET /user/:user', req.params.user)
+    const result = await Setup.find({ by: req.params.user + '@gmail.com' });
+    console.log('GET /user/:user', result)
+    res.json(result[0]);
+  } catch (err) {
+    res.json(err);
+  }
+});
+
 router.get("/:id/image", async (req, res) => {
   const result = await Setup.findById(req.params.id);
   console.log(result);
   res.sendFile(path.resolve("./uploads/" + result.img));
+});
+
+router.get("/user/:user/image", async (req, res) => {
+  try {
+    console.log('GET /user/:user/image', req.params.user)
+    const result = await Setup.find({ by: req.params.user + '@gmail.com' });
+    console.log('GET /user/:user/image', result);
+    res.sendFile(path.resolve("./uploads/" + result.img));
+  } catch (err) {
+    res.json(err);
+  }
 });
 
 router.get("/", async (req, res) => {

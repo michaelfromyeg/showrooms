@@ -4,12 +4,10 @@ import { withAuthUser } from 'next-firebase-auth'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
-import { useRouter } from 'next/router'
-import Layout from '../../layout/layout'
 import { Viewer } from 'photo-sphere-viewer'
 import Skeleton from '@material-ui/lab/Skeleton'
 import Typography from '@material-ui/core/Typography'
-import ProductCard from '../../components/ProductCard'
+import ProductCard from './ProductCard'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -24,45 +22,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Setups = () => {
+const Setups = ({ id }) => {
   const classes = useStyles()
-  const router = useRouter()
-  const { id } = router.query
   const [setup, setSetup] = useState()
+
+  console.log(id)
 
   useEffect(() => {
     if (id)
-      fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/setup/' + id)
+      fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/setup/user/' + id)
         .then((response) => response.json())
         .then((data) => setSetup(data))
   }, [id])
 
-  console.log(setup)
-
   const sphereElementRef = React.createRef()
 
-  useEffect(() => {
-    if (!setup) return
-    const shperePlayerInstance = new Viewer({
-      container: sphereElementRef.current,
-      panorama: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${id}/image`,
-    })
-
-    // unmount component instructions
-    return () => {
-      shperePlayerInstance.destroy()
-    }
-  }, [setup])
-
-  const emailToUsername = (email) => {
-    if (!email) return
-    return '@' + email.split('@')[0]
-  }
+  // useEffect(() => {
+  //   if (!setup) return
+  //   const shperePlayerInstance = new Viewer({
+  //     container: sphereElementRef.current,
+  //     panorama: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/user/${id}/image`,
+  //   })
+  //   // unmount component instructions
+  //   return () => {
+  //     shperePlayerInstance.destroy()
+  //   }
+  // }, [setup])
 
   // eslint-disable-next-line react/jsx-no-undef
   return (
-    <Layout title={'Setup'}>
-      <Grid container spacing={3}>
+    <div>
+      {/* <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <Typography style={{ paddingBottom: 20 }} className={classes.label} variant="h2">{setup ? `"${setup.title}"` : null}</Typography>
@@ -80,15 +70,15 @@ const Setups = () => {
       </Grid>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Typography style={{ paddingBottom: 20 }} className={classes.label} variant="h3">Best Buy Products</Typography>
+          <Typography style={{ paddingTop: 20 }} className={classes.label} variant="h3">Best Buy Products</Typography>
           <Grid container justify="space-around">
             {Array.from(Array(5)).map((i) => {
               return <ProductCard key={i} productSku={12909349} />
             })}
           </Grid>
         </Grid>
-      </Grid>
-    </Layout>
+      </Grid> */}
+    </div>
   )
 }
 
