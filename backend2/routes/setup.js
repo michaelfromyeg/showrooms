@@ -42,98 +42,44 @@ router.get("/:id/image", async (req, res) => {
   res.sendFile(path.resolve("./uploads/" + result.img));
 });
 
-router.get("/:id", async (req, res) => {
-  const match = {};
-  const sort = {};
-
-  if (req.query.completed) {
-    match.completed = req.query.completed === "true";
-  }
-
-  if (req.query.sortBy) {
-    const parts = req.query.sortBy.split(":");
-    sort[parts[0]] = parts[1] === "desc" ? -1 : 1;
-  }
-
-  try {
-    await req.user
-      .populate({
-        path: "tasks",
-        match,
-        options: {
-          limit: parseInt(req.query.limit),
-          skip: parseInt(req.query.skip),
-          sort,
-        },
-      })
-      .execPopulate();
-    res.send(req.user.tasks);
-  } catch (e) {
-    res.status(500).send();
-  }
-});
-
 // TODO wack filtering
-router.get("/", async (req, res) => {
-  const match = {};
-  const sort = {};
 
-  if (req.query.completed) {
-    match.completed = req.query.completed === "true";
-  }
-
-  if (req.query.sortBy) {
-    const parts = req.query.sortBy.split(":");
-    sort[parts[0]] = parts[1] === "desc" ? -1 : 1;
-  }
-
+router.get('/', async (req,res) => {
   try {
-    await req.user
-      .populate({
-        path: "tasks",
-        match,
-        options: {
-          limit: parseInt(req.query.limit),
-          skip: parseInt(req.query.skip),
-          sort,
-        },
-      })
-      .execPopulate();
-    res.send(req.user.tasks);
-  } catch (e) {
-    res.status(500).send();
-  }
-});
+    const setup = await Setup.find({})
+    res.send(setup)
+} catch(error) {
+    res.status(500).send(error)
+}})
 
-// TODO update list of products
-router.patch("/setup/:id", async (req, res) => {
-  const updates = Object.keys(req.body);
-  const allowedUpdates = ["products"];
-  const isValidOperation = updates.every((update) =>
-    allowedUpdates.includes(update)
-  );
+
+router.patch("/:id", async (req, res) => {
+  const updates = Object.keys(req.body)
+  const allowedUpdates = ['img', 'products']
+  const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
   if (!isValidOperation) {
-    return res.status(400).send({ error: "Invalid updates!" });
+      return res.status(400).send({ error: 'Invalid updates!' })
   }
 
   try {
-    const setup = await Set.findOne({ _id: req.params.id });
+      const setup = await Setup.findOne({id: req.params._id})
 
-    if (!setup) {
-      return res.status(404).send();
-    }
+      if (!setup) {
+          return res.status(404).send()
+      }
 
-    updates.forEach((update) => (task[update] = req.body[update]));
-    await task.save();
+      updates.forEach((update) => setup[update] = req.body[update])
+      await setup.save()
 
-    res.send(setup);
+      res.send(setup)
   } catch (e) {
-    res.status(400).send(e);
+      res.status(400).send(e)
   }
-});
+})
 
-router.delete("/setup/:id", async (req, res) => {
+
+router.delete("/:id", async (req, res) => {
   try {
     const setup = await Setup.findOneAndDelete({
       _id: req.params.id,
