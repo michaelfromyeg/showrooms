@@ -63,7 +63,7 @@ router.get("/", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["img", "products"];
+  const allowedUpdates = ["img", "products", "upvotes", "author", "title", "tags", "description"];
   const isValidOperation = updates.every((update) =>
     allowedUpdates.includes(update)
   );
