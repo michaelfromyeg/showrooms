@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 const Setups = () => {
   const classes = useStyles()
   const router = useRouter()
-  const { id } = router.query
+  const id = "601551a4f596023973ce09dd"
   const [setup, setSetup] = useState()
 
   useEffect(() => {
@@ -44,6 +44,19 @@ const Setups = () => {
     }
   }, [setup])
 
+  useEffect(() => {
+    if (!setup) return
+    const shperePlayerInstance = new Viewer({
+      container: sphereElementRef.current,
+      panorama: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${id}/image`,
+    })
+
+    // unmount component instructions
+    return () => {
+      shperePlayerInstance.destroy()
+    }
+  }, [setup])
+
   // eslint-disable-next-line react/jsx-no-undef
   return (
     <Layout title={'Setup'}>
@@ -53,11 +66,11 @@ const Setups = () => {
             {setup?.img ? (
               <div style={{ width: '100%', height: 400 }} ref={sphereElementRef} />
             ) : (
-              <>
-                <Skeleton variant="text" height={40} />
-                <Skeleton variant="rect" height={400} />
-              </>
-            )}
+                <>
+                  <Skeleton variant="text" height={40} />
+                  <Skeleton variant="rect" height={400} />
+                </>
+              )}
           </Paper>
         </Grid>
       </Grid>

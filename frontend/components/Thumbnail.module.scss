@@ -1,0 +1,22 @@
+.thumb {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+
+.icon {
+  z-index: 5;
+  position: absolute;
+  left: 7.5%;
+  top: 75%;
+  transform: translate(-50%, -50%);
+  color: #c0c0c0;
+}
+
+.img {
+  z-index: 1;
+  border-radius: 16px;
+  position: relative;
+  display: inline-block;
+  border: 2px solid #c0c0c0;
+}

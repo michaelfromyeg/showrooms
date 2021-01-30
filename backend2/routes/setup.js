@@ -35,7 +35,7 @@ router.post("/", upload.single("file"), async (req, res) => {
   setup.products = products
   const result = await setup.save();
   res.json(result)
-  
+
 });
 
 router.get("/:id", async (req, res) => {
@@ -60,7 +60,7 @@ router.get("/", async (req, res) => {
     for (filter of filters) {
       const entry = Object.entries(filter)[0];
       if (entry[1] !== "") {
-        mongoFilter[entry[0]] = { $eq: entry[1] };
+        mongoFilter[entry[0]] = entry[1];
       }
     }
   }

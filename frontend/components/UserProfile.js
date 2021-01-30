@@ -8,7 +8,7 @@ import ProductCard from './ProductCard'
 
 const UserProfile = ({ user }) => (
   <div>
-      <ProductCard />
+    <ProductCard />
     <h1>Edit your profile</h1>
     <Formik
       initialValues={{ email: user.email, name: '' }}

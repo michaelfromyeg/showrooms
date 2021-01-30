@@ -10,7 +10,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import SearchIcon from '@material-ui/icons/Search';
+// import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +30,7 @@ const SetupsForm = ({ handleFilterData }) => {
     <div className={classes.root}>
       <Accordion>
         <AccordionSummary
-          expandIcon={<SearchIcon />}
+          expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
@@ -40,25 +40,29 @@ const SetupsForm = ({ handleFilterData }) => {
         </AccordionSummary>
         <AccordionDetails>
           <Formik
-            initialValues={{ setupType: '', author: '' }}
+            initialValues={{ titile: '', date: null, author: '', tags: '' }}
             validate={() => { }}
             onSubmit={async (values, { setSubmitting }) => {
-              alert(JSON.stringify(values, null, 2))
               await handleFilterData(values)
               setSubmitting(false)
             }}
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, handleReset }) => (
               <Form>
-                <Field as={TextField} label="Setup tags" type="setupType" name="setupTags" />
-                <ErrorMessage name="setupTags" component="div" />
-                <Field as={TextField} label="Author" type="author" name="author" />
+                <Field style={{ paddingRight: 15 }} as={TextField} label="Title" type="title" name="title" />
+                <ErrorMessage name="title" component="div" />
+                <Field style={{ paddingRight: 15, marginTop: "16px" }} as={TextField} type="date" name="date" />
+                <ErrorMessage name="date" component="div" />
+                <Field style={{ paddingRight: 15 }} as={TextField} label="Author" type="author" name="author" />
                 <ErrorMessage name="author" component="div" />
-                <Field as={TextField} label="Author" type="author" name="author" />
-                <ErrorMessage name="author" component="div" />
-                <Button type="submit" disabled={isSubmitting}>
+                <Field style={{ paddingRight: 15 }} as={TextField} label="Tags" type="tags" name="tags" />
+                <ErrorMessage name="tags" component="div" />
+                <Button style={{ marginLeft: 30, marginRight: 10 }} variant="contained" color="secondary" onClick={handleReset}>
+                  Reset
+                </Button>
+                <Button variant="contained" color="primary" type="submit" disabled={isSubmitting}>
                   Search
-            </Button>
+                </Button>
               </Form>
             )}
           </Formik>
