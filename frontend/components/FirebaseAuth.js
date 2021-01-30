@@ -1,11 +1,7 @@
-  /* globals window */
 import React, { useEffect, useState } from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 import firebase from 'firebase/app'
 import 'firebase/auth'
-
-// Note that next-firebase-auth inits Firebase for us,
-// so we don't need to.
 
 const firebaseAuthConfig = {
   signInFlow: 'popup',

@@ -7,22 +7,13 @@ import {
 import Header from '../components/Header'
 import Button from '@material-ui/core/Button';
 
-const styles = {
-  content: {
-    padding: 32,
-  },
-  infoTextContainer: {
-    marginBottom: 32,
-  },
-}
-
 const Demo = () => {
   const AuthUser = useAuthUser()
   return (
     <div>
       <Header email={AuthUser.email} signOut={AuthUser.signOut} />
-      <div style={styles.content}>
-        <div style={styles.infoTextContainer}>
+      <div>
+        <div>
           <h3>Home</h3>
           <p>
             This page does not require authentication, so it won't redirect to
@@ -32,7 +23,7 @@ const Demo = () => {
             If you remove `getServerSideProps` from this page, it will be static
             and load the authed user only on the client side.
           </p>
-          <Button color="primary" variant="contained">My App</Button>
+          <Button color="primary" variant="contained">This is a MaterialUI button</Button>
         </div>
       </div>
     </div>

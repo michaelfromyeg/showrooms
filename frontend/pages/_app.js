@@ -6,7 +6,7 @@ import theme from '../utils/theme'
 
 initAuth()
 
-const MyApp = ({ Component, pageProps }) => {
+const App = ({ Component, pageProps }) => {
 
   useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side');
@@ -22,4 +22,4 @@ const MyApp = ({ Component, pageProps }) => {
   )
 }
 
-export default MyApp
+export default App
