@@ -27,6 +27,7 @@ const Setups = ({ id }) => {
   const [setup, setSetup] = useState()
 
   console.log(id)
+  console.log(setup)
 
   useEffect(() => {
     if (id)
@@ -37,22 +38,27 @@ const Setups = ({ id }) => {
 
   const sphereElementRef = React.createRef()
 
-  // useEffect(() => {
-  //   if (!setup) return
-  //   const shperePlayerInstance = new Viewer({
-  //     container: sphereElementRef.current,
-  //     panorama: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/user/${id}/image`,
-  //   })
-  //   // unmount component instructions
-  //   return () => {
-  //     shperePlayerInstance.destroy()
-  //   }
-  // }, [setup])
+  useEffect(() => {
+    if (!setup) return
+    const shperePlayerInstance = new Viewer({
+      container: sphereElementRef.current,
+      panorama: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${setup._id}/image`,
+    })
+    // unmount component instructions
+    return () => {
+      shperePlayerInstance.destroy()
+    }
+  }, [setup])
+
+  const emailToUsername = (email) => {
+    if (!email) return
+    return email.split('@')[0]
+  }
 
   // eslint-disable-next-line react/jsx-no-undef
   return (
     <div>
-      {/* <Grid container spacing={3}>
+      <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <Typography style={{ paddingBottom: 20 }} className={classes.label} variant="h2">{setup ? `"${setup.title}"` : null}</Typography>
@@ -77,7 +83,7 @@ const Setups = ({ id }) => {
             })}
           </Grid>
         </Grid>
-      </Grid> */}
+      </Grid>
     </div>
   )
 }
