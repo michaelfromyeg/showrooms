@@ -4,6 +4,7 @@ import Head from 'next/head'
 
 import { Container } from '@material-ui/core'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import { useAuthUser } from 'next-firebase-auth'
 
 // eslint-disable-next-line react/prop-types
@@ -18,6 +19,7 @@ const Layout = ({ children, title }) => {
           <title>{title}</title>
         </Head>
         {children}
+        <Footer />
       </Container>
     </>
   )

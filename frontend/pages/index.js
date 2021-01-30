@@ -53,13 +53,7 @@ const Index = () => {
 
   return (
     <Layout title={'Home'}>
-      <div className={classes.root}>
-        <Header email={AuthUser.email} signOut={AuthUser.signOut} />
-        <Container className={classes.container} maxWidth={'md'}>
-          <SetupsTable data={data} />
-          <Footer />
-        </Container>
-      </div>
+      <SetupsTable data={data} />
     </Layout>
   )
 }
