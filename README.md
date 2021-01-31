@@ -11,7 +11,7 @@ This project is actively under development for [BizHacks 2021](https://www.bizha
 ### General
 
 - [x] Bootstrap the project
-- [ ] Figure out deployment
+- [x] Figure out deployment
 
 ### User Stories
 
@@ -28,6 +28,13 @@ This project is actively under development for [BizHacks 2021](https://www.bizha
 - [x] As a user, I can view a 3D, interactive photo of someone’s setup
 - [x] As a user, I can query setups (search, filter, sort, etc.)
 - [ ] As a user, ... (TODO)
+
+### Business Dev
+- [x] Identify key problem and consumer group
+- [x] Create pitch deck to display app and solutions
+- [x] Identify main KPI to drive financial model
+- [x] Build financial model to reflect top line revenue build
+- [x] Integrate app demo into pitch deck 
 
 `export GOOGLE_APPLICATION_CREDENTIALS="/home/mdema/code/bizhacks/setups-by-bestbuy-aabcaac9fb68.json"`
 
