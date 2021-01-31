@@ -48,7 +48,7 @@ const Header = ({ email, signOut }) => {
           </IconButton>
         </Link>
         <Typography variant="h6" className={classes.title}>
-          Setups by Best Buy
+          Showrooms by Best Buy
         </Typography>
         {email ? (
           <>
