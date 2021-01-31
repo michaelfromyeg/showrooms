@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { withAuthUser } from 'next-firebase-auth'
 import { useAuthUser } from 'next-firebase-auth'
@@ -28,11 +28,11 @@ const User = () => {
   const [setup, setSetup] = useState()
 
   useEffect(() => {
-    if (id)
-      fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/setup/' + id)
+    if (user)
+      fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/setup/user/' + user)
         .then((response) => response.json())
         .then((data) => setSetup(data))
-  }, [id])
+  }, [user])
 
   const emailToUsername = (email) => {
     if (!email) return
@@ -53,9 +53,11 @@ const User = () => {
             </Grid>
             <Grid item xs={12}>
               <h2>Edit your setup</h2>
-              {setup ? setup.products[1].map((setup) => 
-                <ProductCard productSku={setup.sku} isUser={true} />) : "Waiting for products to be added" 
-              }
+              {setup && setup.products.length >= 2
+                ? setup.products[1].map((setup, i) => (
+                  <ProductCard key={i} productSku={setup.sku} isUser={true} />
+                ))
+                : 'Waiting for products to be added'}
             </Grid>
           </>
           :
