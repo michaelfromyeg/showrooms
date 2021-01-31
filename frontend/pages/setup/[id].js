@@ -86,8 +86,8 @@ const Setups = () => {
         <Grid item xs={12}>
           <Typography style={{ paddingBottom: 20 }} className={classes.label} variant="h3">Best Buy Products</Typography>
           <Grid container justify="space-around">
-            {setup ? setup.products[1].map((setup) => 
-                <ProductCard productSku={setup.sku} isUser={true} />) : "Waiting for products to be added" 
+            {(setup && setup.products.length >= 2) ? setup.products[1].map((setup) =>
+              <ProductCard productSku={setup.sku} isUser={true} />) : "Waiting for products to be added"
             }
           </Grid>
         </Grid>
