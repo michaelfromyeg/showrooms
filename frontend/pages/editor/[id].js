@@ -2,6 +2,7 @@ import React from 'react'
 import Layout from '../../layout/layout'
 import { makeStyles } from '@material-ui/core/styles'
 import Editor from '../../components/Editor'
+import { withAuthUser } from 'next-firebase-auth'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -22,4 +23,4 @@ const Edit = () => {
   )
 }
 
-export default Edit
+export default withAuthUser({})(Edit)

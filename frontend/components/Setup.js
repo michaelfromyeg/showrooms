@@ -36,55 +36,16 @@ const Setups = ({ id }) => {
         .then((data) => setSetup(data))
   }, [id])
 
-  const sphereElementRef = React.createRef()
-
-  useEffect(() => {
-    if (!setup) return
-    const shperePlayerInstance = new Viewer({
-      container: sphereElementRef.current,
-      panorama: `${process.env.NEXT_PUBLIC_BACKEND_URL}/setup/${setup._id}/image`,
-    })
-    // unmount component instructions
-    return () => {
-      shperePlayerInstance.destroy()
-    }
-  }, [setup])
-
-  const emailToUsername = (email) => {
-    if (!email) return
-    return email.split('@')[0]
-  }
-
   // eslint-disable-next-line react/jsx-no-undef
   return (
-    <div>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <Typography style={{ paddingBottom: 20 }} className={classes.label} variant="h2">{setup ? `"${setup.title}"` : null}</Typography>
-            {setup?.img ? (
-              <div style={{ width: '100%', height: 600 }} ref={sphereElementRef} />
-            ) : (
-                <>
-                  <Skeleton variant="text" height={40} />
-                  <Skeleton variant="rect" height={600} />
-                </>
-              )}
-            <Typography style={{ paddingTop: 20 }} className={classes.label} variant="body2">Setup from <Link href={"user/9JaxdHJ4URei2QFFxapvSTZafZR2"}><a>{setup ? emailToUsername(setup.by) : '...'}</a></Link></Typography>
-          </Paper>
-        </Grid>
-      </Grid>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Typography style={{ paddingTop: 20 }} className={classes.label} variant="h3">Best Buy Products</Typography>
-          <Grid container justify="space-around">
-            {Array.from(Array(5)).map((i) => {
-              return <ProductCard key={i} productSku={12909349} />
-            })}
-          </Grid>
-        </Grid>
-      </Grid>
-    </div>
+    <Grid item xs={12}>
+      <h2>View their setup</h2>
+      {setup && setup.products.length >= 2
+        ? setup.products[1].map((setup, i) => (
+          <ProductCard key={i} productSku={setup.sku} isUser={true} />
+        ))
+        : 'Waiting for products to be added'}
+    </Grid>
   )
 }
 

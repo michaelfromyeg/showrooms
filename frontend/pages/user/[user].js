@@ -66,10 +66,7 @@ const User = () => {
               <h1>Welcome to {`${user}'s page!`}</h1>
               <p>Feel free to browse their setups.</p>
             </Grid>
-            <Grid item xs={12}>
-              <h2>View their setup</h2>
-              <Setup id={user} />
-            </Grid>
+            <Setup id={user} />
           </>
         }
       </Grid>
