@@ -25,6 +25,14 @@ const User = () => {
   const classes = useStyles()
   const router = useRouter()
   const { user } = router.query
+  const [setup, setSetup] = useState()
+
+  useEffect(() => {
+    if (id)
+      fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/setup/' + id)
+        .then((response) => response.json())
+        .then((data) => setSetup(data))
+  }, [id])
 
   const emailToUsername = (email) => {
     if (!email) return
@@ -45,7 +53,9 @@ const User = () => {
             </Grid>
             <Grid item xs={12}>
               <h2>Edit your setup</h2>
-              <ProductCard productSku={"14932190"} isUser={true} />
+              {setup ? setup.products[1].map((setup) => 
+                <ProductCard productSku={setup.sku} isUser={true} />) : "Waiting for products to be added" 
+              }
             </Grid>
           </>
           :

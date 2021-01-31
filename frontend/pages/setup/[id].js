@@ -86,9 +86,9 @@ const Setups = () => {
         <Grid item xs={12}>
           <Typography style={{ paddingBottom: 20 }} className={classes.label} variant="h3">Best Buy Products</Typography>
           <Grid container justify="space-around">
-            {Array.from(Array(5)).map((i) => {
-              return <ProductCard key={i} productSku={12909349} />
-            })}
+            {setup ? setup.products[1].map((setup) => 
+                <ProductCard productSku={setup.sku} isUser={true} />) : "Waiting for products to be added" 
+            }
           </Grid>
         </Grid>
       </Grid>
