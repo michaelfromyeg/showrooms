@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   },
 })
 
-const ProductCard = ({ productSku, isUser }) => {
+const Product = ({ productSku, isUser }) => {
   const classes = useStyles()
 
   const [error, setError] = useState(null)
@@ -72,7 +72,7 @@ const ProductCard = ({ productSku, isUser }) => {
     return <div>Loading...</div>
   } else {
     return (
-      <Card className={classes.root}>
+      <>
         <CardMedia
           component="img"
           alt={items.name}
@@ -110,9 +110,9 @@ const ProductCard = ({ productSku, isUser }) => {
             </a>
           </Button>
         </CardActions>
-      </Card>
+      </>
     )
   }
 }
 
-export default ProductCard
+export default Product
