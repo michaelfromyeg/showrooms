@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { withAuthUser } from 'next-firebase-auth'
 import { useAuthUser } from 'next-firebase-auth'
@@ -24,7 +25,7 @@ const User = () => {
   const AuthUser = useAuthUser()
   const classes = useStyles()
   const router = useRouter()
-  const { user } = router.query
+  const { id } = router.query
   const [setup, setSetup] = useState()
 
   useEffect(() => {
