@@ -24,7 +24,7 @@ const Index = () => {
   useEffect(() => {
     const fetchSetups = async () => {
       try {
-        const result = await fetch('http://localhost:3001/setup')
+        const result = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/setup')
         const resultJson = await result.json()
         console.log(resultJson)
         setData(resultJson)
@@ -39,12 +39,12 @@ const Index = () => {
   }, [])
 
   const handleHideRow = (id) => {
-    setData(data.filter(row => row._id !== id))
+    setData(data.filter((row) => row._id !== id))
   }
 
   const handleFilterData = async (formData) => {
     try {
-      const url = new URL('http://localhost:3001/setup')
+      const url = new URL(process.env.NEXT_PUBLIC_BACKEND_URL + '/setup')
       const filters = []
       for (const [key, value] of Object.entries(formData)) {
         const pair = {}
@@ -64,16 +64,24 @@ const Index = () => {
 
   const handleDataChange = (index, clicked) => {
     const dataCopy = data.slice()
-    dataCopy[index].upvotes = clicked ? dataCopy[index].upvotes - 1 : dataCopy[index].upvotes + 1
+    dataCopy[index].upvotes = clicked
+      ? dataCopy[index].upvotes - 1
+      : dataCopy[index].upvotes + 1
     setData(dataCopy)
   }
 
-  if (loading) { return <FullPageLoader /> }
+  if (loading) {
+    return <FullPageLoader />
+  }
   return (
     <Layout title={'Home'}>
       <FeaturedSetup />
       <SetupsForm handleFilterData={handleFilterData} />
-      <SetupsTable data={data} handleHideRow={handleHideRow} handleDataChange={handleDataChange} />
+      <SetupsTable
+        data={data}
+        handleHideRow={handleHideRow}
+        handleDataChange={handleDataChange}
+      />
     </Layout>
   )
 }
