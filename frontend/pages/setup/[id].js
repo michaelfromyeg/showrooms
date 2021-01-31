@@ -182,9 +182,10 @@ const Setups = () => {
           <Product productSku={sku} />
         </DialogContent>
       </Dialog>
+    </Layout>
   )
 }
 
 export default withAuthUser({
-        // whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
-      })(Setups)
+  // whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+})(Setups)
