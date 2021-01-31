@@ -76,7 +76,7 @@ const Header = ({ email, signOut }) => {
             <>
               <Typography variant="body2">You are not signed in.</Typography>
               <Link href="/auth">
-                <a>
+                <a style={{color:"white"}}>
                   <Button color="inherit">Sign in</Button>
                 </a>
               </Link>
