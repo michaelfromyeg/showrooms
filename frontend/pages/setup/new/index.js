@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     textAlign: 'left',
     color: theme.palette.text.primary,
-  }
+  },
 }))
 
 const Setups = () => {
@@ -54,7 +54,7 @@ const Setups = () => {
       { headers: { 'Content-Type': 'multipart/form-data' } }
     )
 
-    if (data._id) router.push(`/setup/${data._id}`)
+    if (data._id) router.push(`/editor/${data._id}`)
   }
 
   // eslint-disable-next-line react/jsx-no-undef
@@ -63,7 +63,9 @@ const Setups = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <Typography className={classes.title} variant="h3">Create a new show room</Typography>
+            <Typography className={classes.title} variant="h3">
+              Create a new show room
+            </Typography>
             <TextField
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -100,7 +102,12 @@ const Setups = () => {
               showPreviewsInDropzone={false}
               showFileNamesInPreview={true}
             />
-            <Button onClick={submit} variant="contained" color="primary" style={{ marginTop: 15 }}>
+            <Button
+              onClick={submit}
+              variant="contained"
+              color="primary"
+              style={{ marginTop: 15 }}
+            >
               Submit
             </Button>
           </Paper>

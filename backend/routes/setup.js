@@ -36,37 +36,36 @@ router.post("/", upload.single("file"), async (req, res) => {
   });
   let results = await vision.getDataFromImage(req.file.filename);
 
-  products = []
+  products = [];
   results.labelAnnotations.forEach((product) => {
-    products.push({ "description": product.description, "location": [] })
-  })
+    products.push({ description: product.description, location: [] });
+  });
 
-  setup.products = products
+  setup.products = products;
   const result = await setup.save();
-  res.json(result)
-
+  res.json(result);
 });
 
 router.get("/:id", async (req, res) => {
   try {
-    console.log('GET /setup/:id')
+    console.log("GET /setup/:id");
     const result = await Setup.findById(req.params.id);
-    console.log('GET /setup/:id', result)
+    console.log("GET /setup/:id", result);
     res.json(result);
   } catch (err) {
-    console.error(err)
+    console.error(err);
     res.json(err);
   }
 });
 
 router.get("/user/:user", async (req, res) => {
   try {
-    console.log('GET /user/:user', req.params.user)
-    const result = await Setup.find({ by: req.params.user + '@gmail.com' });
-    console.log('GET /user/:user', result)
+    console.log("GET /user/:user", req.params.user);
+    const result = await Setup.find({ by: req.params.user + "@gmail.com" });
+    console.log("GET /user/:user", result);
     res.json(result[0]);
   } catch (err) {
-    console.error(err)
+    console.error(err);
     res.json(err);
   }
 });
@@ -79,9 +78,9 @@ router.get("/:id/image", async (req, res) => {
 
 router.get("/user/:user/image", async (req, res) => {
   try {
-    console.log('GET /user/:user/image', req.params.user)
-    const result = await Setup.find({ by: req.params.user + '@gmail.com' });
-    console.log('GET /user/:user/image', result[0]);
+    console.log("GET /user/:user/image", req.params.user);
+    const result = await Setup.find({ by: req.params.user + "@gmail.com" });
+    console.log("GET /user/:user/image", result[0]);
     res.sendFile(path.resolve("./uploads/" + result[0].img));
   } catch (err) {
     res.json(err);
@@ -95,7 +94,7 @@ router.get("/", async (req, res) => {
     for (filter of filters) {
       const entry = Object.entries(filter)[0];
       if (entry[1] !== "") {
-        console.log(entry[0])
+        console.log(entry[0]);
         if (entry[0] === "author") {
           mongoFilter.by = entry[1] + "@gmail.com";
         } else {
@@ -152,15 +151,12 @@ router.patch("/:id", async (req, res) => {
 });
 
 router.patch("/test", async (req, res) => {
-  res.json(req.boy)
-})
-
+  res.json(req.boy);
+});
 
 router.patch("/:id/products", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = [
-    "products",
-  ];
+  const allowedUpdates = ["products"];
   const isValidOperation = updates.every((update) =>
     allowedUpdates.includes(update)
   );
@@ -176,24 +172,26 @@ router.patch("/:id/products", async (req, res) => {
       return res.status(404).send();
     }
 
+    const second =
+      setup.products.length >= 2
+        ? [...setup.products[1], req.body.products]
+        : [req.body.products];
 
-    const result = await Setup.updateOne({ _id: req.params.id }, {
-      products: [
-        setup.products[0],
-        [...setup.products[1], req.body.products]
-      ]
-    })
+    const result = await Setup.updateOne(
+      { _id: req.params.id },
+      {
+        products: [setup.products[0], second],
+      }
+    );
 
     setup = await Setup.findById(req.params.id);
 
     res.json(setup);
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.status(400).send(e);
   }
 });
-
-
 
 router.delete("/:id", async (req, res) => {
   try {
