@@ -4,6 +4,7 @@ import SetupsTable from '../components/SetupsTable'
 import SetupsForm from '../components/SetupsForm'
 import FeaturedSetup from '../components/FeaturedSetup'
 import Layout from '../layout/layout'
+import FullPageLoader from '../components/FullPageLoader'
 
 const createData = (title, date, author, view) => {
   return { title, date, author, view }
@@ -67,7 +68,7 @@ const Index = () => {
     setData(dataCopy)
   }
 
-  if (loading) { return <p>Loading...</p> }
+  if (loading) { return <FullPageLoader /> }
   return (
     <Layout title={'Home'}>
       <FeaturedSetup />
